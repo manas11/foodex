@@ -15,49 +15,57 @@
 </head>
 <body>
 
-    <div class="main">
+<div class="main">
 
-        <div class="container">
-            <div class="signup-content">
-                <form id="form" class="signup-form" role="form" action="#" method="post" enctype="multipart/form-data">
-                    {%  csrf_token %}
-                    <h2>Restaurant Owner Profile </h2>
-                    <p class="desc">Enter Personal Details</p>
-                    <div class="form-group">
-                        <input type="text" class="form-input" name="f_name" id="f_name" placeholder="First Name" required/>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-input" name="l_name" id="l_name" placeholder="Last Name" required/>
-                    </div>
-                   <div class="form-group">
-                        <input type="text" class="form-input" name="phone" id="phone" placeholder="Contact Number" required/>
-                    </div>
-                   <div class="form-group">
-                        <input type="text" class="form-input" name="addressline1" id="addressline1" placeholder="Address Line 1" required/>
-                    </div>
-                   <div class="form-group">
-                        <input type="text" class="form-input" name="addressline2" id="addressline2" placeholder="Address Line 2" required/>
-                    </div>
+    <div class="container">
+        <div class="signup-content">
+            <form id="form" class="signup-form" role="form" action="#" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h2>Restaurant Owner Profile </h2>
+                <p class="desc">Enter Personal Details</p>
+                <div class="form-group">
+                    <input type="text" class="form-input" name="f_name" id="f_name" placeholder="First Name" required/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-input" name="l_name" id="l_name" placeholder="Last Name" required/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-input" name="phone" id="phone" placeholder="Contact Number"
+                           required/>
+                </div>
+                <select name="location" id="location" required>
+                    <option value="">Select Location</option>
+                    {% for x in locations %}
+                        <option value="{{ x.0 }}">{{ x.1 }}</option>
+                    {% endfor %}
+                </select>
+                <div class="form-group">
+                    <input type="text" class="form-input" name="addressline1" id="addressline1"
+                           placeholder="Address Line 1" required/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-input" name="addressline2" id="addressline2"
+                           placeholder="Address Line 2" required/>
+                </div>
 
 
-
-                    {##}
-{#                    <div class="form-group">#}
-{#                        <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" required/>#}
-{#                        <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>#}
-{#                    </div>#}
-                    <div class="form-group">
-                        <input type="submit" name="submit" id="submit" class="form-submit submit" value="Sign up"/>
-{#                        <a href="{% url "login" %}" class="submit-link submit">Sign in</a>#}
-                    </div>
-                </form>
-            </div>
+                {##}
+                {#                    <div class="form-group">#}
+                {#                        <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" required/>#}
+                {#                        <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>#}
+                {#                    </div>#}
+                <div class="form-group">
+                    <input type="submit" name="submit" id="submit" class="form-submit submit" value="Sign up"/>
+                    {#                        <a href="{% url "login" %}" class="submit-link submit">Sign in</a>#}
+                </div>
+            </form>
         </div>
-
     </div>
 
-    <script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
-    <script src="{% static "js/batman.js" %}"></script>
+</div>
+
+<script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
+<script src="{% static "js/batman.js" %}"></script>
 </body>
 </html>
 

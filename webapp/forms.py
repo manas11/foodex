@@ -26,7 +26,7 @@ class CustomerRegisterForm(forms.ModelForm):
 class CustomerRegisterProfileForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['f_name', 'l_name', 'addressline1', 'phone', 'addressline2']
+        fields = ['f_name', 'l_name', 'addressline1', 'phone', 'addressline2', 'location']
 
 
 class RestaurantRegisterForm(forms.ModelForm):
@@ -47,7 +47,7 @@ class RestaurantRegisterForm(forms.ModelForm):
 class RestaurantRegisterProfileForm(forms.ModelForm):
     class Meta:
         model = RestaurantOwner
-        fields = ['f_name', 'l_name', 'addressline1', 'phone', 'addressline2']
+        fields = ['f_name', 'l_name', 'addressline1', 'phone', 'addressline2', 'location']
 
 
 # class RestaurantDetailForm(forms.ModelForm):

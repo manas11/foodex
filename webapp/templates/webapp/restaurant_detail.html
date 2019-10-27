@@ -36,17 +36,17 @@
                 <div class="form-group">
                     <input type="text" class="form-input" name="address" id="address" placeholder="Address" required/>
                 </div>
-<div class="select">
-  <select name="location" id="location" required >
-        <option value="">Select Location</option>
-         {% for x in locations %}
-                        <option value="{{ x.0 }}">{{ x.1 }}</option>
-                    {% endfor %}
-  </select>
-</div>
-{#                <select class = "sct" >#}
-{#               #}
-{#                </select>#}
+                <div class="select">
+                    <select name="location" id="location" required>
+                        <option value="">Select Location</option>
+                        {% for x in locations %}
+                            <option value="{{ x.0 }}">{{ x.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {#                <select class = "sct" >#}
+                {#               #}
+                {#                </select>#}
                 {#                </div>#}
                 <div class="form-group">
                     <input type="text" class="form-input" name="avg_time" id="avg_time"

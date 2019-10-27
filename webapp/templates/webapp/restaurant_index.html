@@ -87,93 +87,99 @@
 
 <div class="product-sec1">
     <h3 class="heading-tittle">Restaurants</h3>
-    <div class="container">
-        {% if request.user.is_authenticated %}
-            {% for rest in r_object %}
-                <div class="col-xs-7 col-md-6">
-                    <div class="thumbnail">
-                        <div class="media mb-2 ml-8"
-                             style="border-radius: 10px; border-style: groove; border-width: 2px;">
-                            <a href="{% url 'index' rest.id %}" class="pull-left ">
-                                <img src="{{ rest.r_logo.url }}" class="img-thumbnail img-responsive "
-                                     style="height: 130px; width: 130px;">
-                            </a>
-                            <div class="media-body pl-4">
-                                <a href="{% url 'menu' rest.id %}" style="text-decoration: none !important;"><h1
-                                        class="media-heading text-info mt-1" style="height: 20px;">
-                                    <strong>{{ rest.rname }}</strong></h1></a>
-                                <h6 class="text-secondary"><font size="2"><strong>{{ rest.info }}</strong></font></h6>
-                                <h4><font size="2">Min: &#x20b9; {{ rest.min_ord }}</font></h4>
-                                <h5><font size="3">Status: <strong
-                                        class="text-success">{{ rest.status }}</strong></font></h5>
 
-                            </div>
+    {% if request.user.is_authenticated %}
+        {#    then display the restaurant of that location #}
 
-                        </div>
+    {% else %}
+        {#else display dropdown select tag and then select the location and restaurants of that location #}
+    {% endif %}
 
-                    </div>
-                </div>
+    {#            {% for rest in r_object %}#}
+    {#                <div class="col-xs-7 col-md-6">#}
+    {#                    <div class="thumbnail">#}
+    {#                        <div class="media mb-2 ml-8"#}
+    {#                             style="border-radius: 10px; border-style: groove; border-width: 2px;">#}
+    {#                            <a href="{% url 'index' rest.id %}" class="pull-left ">#}
+    {#                                <img src="{{ rest.r_logo.url }}" class="img-thumbnail img-responsive "#}
+    {#                                     style="height: 130px; width: 130px;">#}
+    {#                            </a>#}
+    {#                            <div class="media-body pl-4">#}
+    {#                                <a href="{% url 'menu' rest.id %}" style="text-decoration: none !important;"><h1#}
+    {#                                        class="media-heading text-info mt-1" style="height: 20px;">#}
+    {#                                    <strong>{{ rest.rname }}</strong></h1></a>#}
+    {#                                <h6 class="text-secondary"><font size="2"><strong>{{ rest.info }}</strong></font></h6>#}
+    {#                                <h4><font size="2">Min: &#x20b9; {{ rest.min_ord }}</font></h4>#}
+    {#                                <h5><font size="3">Status: <strong#}
+    {#                                        class="text-success">{{ rest.status }}</strong></font></h5>#}
+    {##}
+    {#                            </div>#}
+    {##}
+    {#                        </div>#}
+    {##}
+    {#                    </div>#}
+    {#                </div>#}
+    {##}
+    {#            {% endfor %}#}
 
-            {% endfor %}
 
-
-        {% else %}
-
-        {% endif %}
-        <div class="col-sm-4 col-sm-offset-3">
-            <form class="form-horizontal" role="search" method="get" action=''>
-                <div class="form-group ">
-                    <div class="input-group">
-                        <input type="text" class="form-control input-lg " name="q" value="{{ request.GET.q }}"
-                               placeholder="Search Restaurant " style="height: 40px; width: 50%; font-size: 20px;"/>
-                        <span class='input-group-btn'>
-             <button class='btn btn-info btn-lg' style="height:40px; font-size: 20px;" type='submit'>Search
-             </button>
-         </span>
-                    </div>
-                </div>
-            </form>
-
-        </div>
-
-    </div>
-    <br>
-    <br>
-    <div class="container">
-        <div class="row">
-            {% for rest in r_object %}
-                <div class="col-xs-7 col-md-6">
-                    <div class="thumbnail">
-                        <div class="media mb-2 ml-8"
-                             style="border-radius: 10px; border-style: groove; border-width: 2px;">
-                            <a href="{% url 'index' rest.id %}" class="pull-left ">
-                                <img src="{{ rest.r_logo.url }}" class="img-thumbnail img-responsive "
-                                     style="height: 130px; width: 130px;">
-                            </a>
-                            <div class="media-body pl-4">
-                                <a href="{% url 'menu' rest.id %}" style="text-decoration: none !important;"><h1
-                                        class="media-heading text-info mt-1" style="height: 20px;">
-                                    <strong>{{ rest.rname }}</strong></h1></a>
-                                <h6 class="text-secondary"><font size="2"><strong>{{ rest.info }}</strong></font></h6>
-                                <h4><font size="2">Min: &#x20b9; {{ rest.min_ord }}</font></h4>
-                                <h5><font size="3">Status: <strong
-                                        class="text-success">{{ rest.status }}</strong></font></h5>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-            {% endfor %}
-        </div>
-    </div>
+    {#        {% else %}#}
+    {##}
+    {#        {% endif %}#}
+    {#        <div class="col-sm-4 col-sm-offset-3">#}
+    {#            <form class="form-horizontal" role="search" method="get" action=''>#}
+    {#                <div class="form-group ">#}
+    {#                    <div class="input-group">#}
+    {#                        <input type="text" class="form-control input-lg " name="q" value="{{ request.GET.q }}"#}
+    {#                               placeholder="Search Restaurant " style="height: 40px; width: 50%; font-size: 20px;"/>#}
+    {#                        <span class='input-group-btn'>#}
+    {#             <button class='btn btn-info btn-lg' style="height:40px; font-size: 20px;" type='submit'>Search#}
+    {#             </button>#}
+    {#         </span>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#            </form>#}
+    {##}
+    {#        </div>#}
+    {##}
+    {#    </div>#}
+    {#    <br>#}
+    {#    <br>#}
+    {#    <div class="container">#}
+    {#        <div class="row">#}
+    {#            {% for rest in r_object %}#}
+    {#                <div class="col-xs-7 col-md-6">#}
+    {#                    <div class="thumbnail">#}
+    {#                        <div class="media mb-2 ml-8"#}
+    {#                             style="border-radius: 10px; border-style: groove; border-width: 2px;">#}
+    {#                            <a href="{% url 'index' %}" class="pull-left ">#}
+    {#                                <img src="{{ rest.r_logo.url }}" class="img-thumbnail img-responsive "#}
+    {#                                     style="height: 130px; width: 130px;">#}
+    {#                            </a>#}
+    {#                            <div class="media-body pl-4">#}
+    {#                                <a href="{% url 'menu' rest.id %}" style="text-decoration: none !important;"><h1#}
+    {#                                        class="media-heading text-info mt-1" style="height: 20px;">#}
+    {#                                    <strong>{{ rest.rname }}</strong></h1></a>#}
+    {#                                <h6 class="text-secondary"><font size="2"><strong>{{ rest.info }}</strong></font></h6>#}
+    {#                                <h4><font size="2">Min: &#x20b9; {{ rest.min_ord }}</font></h4>#}
+    {#                                <h5><font size="3">Status: <strong#}
+    {#                                        class="text-success">{{ rest.status }}</strong></font></h5>#}
+    {##}
+    {#                            </div>#}
+    {##}
+    {#                        </div>#}
+    {##}
+    {#                    </div>#}
+    {#                </div>#}
+    {##}
+    {#            {% endfor %}#}
+    {#        </div>#}
+    {#    </div>#}
 
     <div class="col-md-4 product-men">
         <div class="men-pro-item simpleCart_shelfItem">
             <div class="men-thumb-item">
-                <img src="images/mk7.jpg" alt="">
+                <img src="{{ user.restaurant.r_logo.url }}" alt="">
                 <div class="men-cart-pro">
                     <div class="inner-men-cart-pro">
                         <a href="single.html" class="link-product-add-cart">Quick View</a>
