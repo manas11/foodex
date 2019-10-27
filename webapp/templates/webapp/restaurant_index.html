@@ -106,8 +106,19 @@
             </div>
             <div class="item-info-product ">
                 <h4>
-                    <a href="">Chinese Noodles, 68g</a>
+{#                    <a href={% url 'menu' x.id %}>{{x.name }}</a>#}
+                    <a href={% url 'index' %}>{{x.name }}</a>
                 </h4>
+            </div>
+        <div class="item-info-product ">
+                <h4>
+                    <a href="">Avg Cost : &#x20b9; {{x.avg_cost }}</a>
+                </h4>
+            </div><div class="item-info-product ">
+                <h4>
+                    <a href="">Avg Time : {{x.avg_time }} mins</a>
+                </h4>
+            </div>
 {#                <div class="info-product-price">#}
 {#                    <span class="item_price">$11.99</span>#}
 {#                    <del>$15.00</del>#}
@@ -129,15 +140,14 @@
 {#                    </form>#}
 {#                </div>#}
 
-            </div>
 
         </div>
-
     </div>
-
       {% endfor %}
     {% else %}
         {#else display dropdown select tag and then select the location and restaurants of that location #}
+
+
     {% endif %}
 
     {#            {% for rest in r_object %}#}
