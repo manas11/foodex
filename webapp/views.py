@@ -176,6 +176,7 @@ def restaurant_index(request):
         location = customer.location.LocationName
     else:
         r_object = None
+        location = None
         # query = request.GET.get('q')
         # if query:
         #     r_object = Restaurant.objects.filter(Q(location_id__iins=query)).distinct()
