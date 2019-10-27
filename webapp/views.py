@@ -177,6 +177,7 @@ def restaurant_index(request):
     if request.user.is_authenticated:
         customer = Customer.objects.get(user=request.user)
         r_object = Restaurant.objects.filter(location=customer.location)
+        location = customer.location.LocationName
     else:
         r_object = None
     # query = request.GET.get('q')
@@ -184,6 +185,7 @@ def restaurant_index(request):
     #     r_object = Restaurant.objects.filter(Q(location_id__iins=query)).distinct()
     context = {
         'r_object': r_object,
+        'location': location,
     }
     return render(request, 'webapp/restaurant_index.html', context)
 

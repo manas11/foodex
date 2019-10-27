@@ -7,7 +7,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 html, body{
 	margin:0;
 	font-size: 100%;
-	background: #fff;
+	/*background: #2d2d2d;*/
 	font-family: 'Open Sans', sans-serif;
 }
 body a {
@@ -612,24 +612,19 @@ button.w3view-cart {
     transition: all 0.5s ease-out 0s;
     visibility: hidden;
 }
-.product-men:nth-child(3) .product-new-top {
-    background: #FFC107;
-}
-.product-men:nth-child(4) .product-new-top {
-    background: #219ff3;
-}
+
 .product-new-top {
-    background: #fc636b;
+    background: #0c5460;
     color: #fff;
     right: 0;
     position: absolute;
     top: 0;
-    width: 45px;
-    font-size: 13px;
-    height: 45px;
+    width: 60px;
+    font-size: 14px;
+    height: 60px;
     text-align: center;
     border-radius: 50%;
-    line-height: 3.3;
+    line-height: 4.2;
 }
 .inner-men-cart-pro {
     height: 100%;
@@ -928,7 +923,7 @@ input.checked {
 }
 h3.heading-tittle {
     text-align: center;
-    color: #000;
+    color: #fff;
     font-size: 35px;
     font-weight: 600;
     letter-spacing: 1px;
@@ -958,8 +953,7 @@ span.item_price {
     font-size: 15px;
 }
 .product-sec1.product-sec2{
-    background: url(../images/bg1.jpg)no-repeat 0px 0px;
-    background-attachment: fixed;
+    background: url(../images/bg_2.jpg) no-repeat fixed 0px 0px;
     background-size: cover;
     -webkit-background-size: cover;
     -o-background-size: cover;
@@ -3277,9 +3271,9 @@ input[type="radio"], input[type="checkbox"] {
         padding-bottom: 3em;
     }
     .product-new-top {
-        width: 30px;
-        font-size: 9px;
-        height: 30px;
+        width: 100px;
+        font-size: 10px;
+        height: 100px;
     }
     .faq-w3agile .faq li {
         margin-top: 1.5em;
@@ -3825,9 +3819,9 @@ input[type="radio"], input[type="checkbox"] {
         width: 100%;
     }
     .product-new-top {
-        width: 40px;
+        width: 60px;
         font-size: 11px;
-        height: 40px;
+        height: 60px;
         line-height: 3.4;
         right: 95px;
     }
