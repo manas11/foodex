@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from xdg import Menu
 
-from webapp.models import Location, RestaurantOwner, Restaurant, FoodRestaurant, FoodItem, ItemType, User
+from webapp.models import Location, RestaurantOwner, Restaurant, FoodRestaurant, FoodItem, ItemType, User, Customer
 from .forms import CustomerRegisterForm, CustomerRegisterProfileForm, RestaurantRegisterForm, \
     RestaurantRegisterProfileForm, RestaurantDetailForm
 
@@ -62,7 +62,13 @@ def customer_profile_register(request):
         instance.location_id = 1
         instance.save()
         return redirect("index")
+    loc = Location.objects.all()
+    locations = []
+    for x in loc:
+        lps = [x.LocationId, x.LocationName]
+        locations.append(lps)
     context = {
+        'locations': locations,
         'form': form,
         'title': "Complete Your profile"
     }
@@ -113,7 +119,13 @@ def restaurant_profile_register(request):
         instance.location_id = 1
         instance.save()
         return redirect("restaurant_detail")
+    loc = Location.objects.all()
+    locations = []
+    for x in loc:
+        lps = [x.LocationId, x.LocationName]
+        locations.append(lps)
     context = {
+        'locations': locations,
         'form': form,
         'title': "Complete Your profile"
     }
@@ -157,8 +169,20 @@ def restaurant_detail(request):
 
 
 def restaurant_index(request):
-    restaurants = Restaurant.objects.all()
-    return render(request, 'webapp/restaurant_index.html', {'restaurants': restaurants})
+    if request.user.is_authenticated:
+        customer = Customer.objects.get(user=request.user)
+        r_object = Restaurant.objects.filter(location=customer.location)
+        location = customer.location.LocationName
+    else:
+        r_object = None
+        # query = request.GET.get('q')
+        # if query:
+        #     r_object = Restaurant.objects.filter(Q(location_id__iins=query)).distinct()
+    context = {
+        'r_object': r_object,
+        'location': location,
+    }
+    return render(request, 'webapp/restaurant_index.html', context)
 
 
 def restaurantProfile(request, pk=None):
