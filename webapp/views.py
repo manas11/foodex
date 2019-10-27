@@ -1,12 +1,15 @@
+from collections import Counter
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth import authenticate, login, logout
 from xdg import Menu
 
 from webapp.models import Location, RestaurantOwner, Restaurant, FoodRestaurant, FoodItem, ItemType, User, Order, \
-    Customer, OrderDetail
+    Customer, OrderDetail, Offer
 from .forms import CustomerRegisterForm, CustomerRegisterProfileForm, RestaurantRegisterForm, \
     RestaurantRegisterProfileForm, RestaurantDetailForm
 
@@ -276,49 +279,88 @@ def restaurantProfile(request, pk=None):
 # #     return render(request, 'webapp/menu.html', context)
 # #
 # #
-# # @login_required(login_url='/login/user/')
-# # def checkout(request):
-# #     if request.POST:
-# #         addr = request.POST['address']
-# #         ordid = request.POST['oid']
-# #         Order.objects.filter(id=int(ordid)).update(delivery_addr=addr,
-# #                                                    status=Order.ORDER_STATE_PLACED)
-# #         return redirect('/orderplaced/')
-# #     else:
-# #         cart = request.COOKIES['cart'].split(",")
-# #         cart = dict(Counter(cart))
-# #         items = []
-# #         totalprice = 0
-# #         uid = User.objects.filter(username=request.user)
-# #         oid = Order()
-# #         oid.orderedBy = uid[0]
-# #         for x, y in cart.items():
-# #             item = []
-# #             it = Menu.objects.filter(id=int(x))
-# #             if len(it):
-# #                 oiid = orderItem()
-# #                 oiid.item_id = it[0]
-# #                 oiid.quantity = int(y)
-# #                 oid.r_id = it[0].r_id
-# #                 oid.save()
-# #                 oiid.ord_id = oid
-# #                 oiid.save()
-# #                 totalprice += int(y) * it[0].price
-# #                 item.append(it[0].item_id.fname)
-# #                 it[0].quantity = it[0].quantity - y
-# #                 it[0].save()
-# #                 item.append(y)
-# #                 item.append(it[0].price * int(y))
-# #
-# #             items.append(item)
-# #         oid.total_amount = totalprice
-# #         oid.save()
-# #         context = {
-# #             "items": items,
-# #             "totalprice": totalprice,
-# #             "oid": oid.id
-# #         }
-# #         return render(request, 'webapp/order.html', context)
+@login_required(login_url='/login/user/')
+def checkout(request):
+    if request.POST:
+        ordid = request.POST['oid']
+        order = Order.objects.get(offer_id=ordid)
+        order.status = Order.ORDER_STATE_PLACED
+        order.save()
+        return redirect('/orderplaced/')
+    else:
+        cart = request.COOKIES['cart'].split(",")
+        cart = dict(Counter(cart))
+        items = []
+        totalprice = 0
+        order = Order()
+
+        for x, y in cart.items():
+            item = []
+            it = FoodItem.objects.get(food_item_id=int(x))
+            item_rest = FoodRestaurant.objects.get(food_item_id=it.food_item_id)
+            order.restaurant = Restaurant.objects.get(restaurant_id=item_rest.restaurant)
+            order_detail = OrderDetail()
+            order_detail.food_item_id = it.food_item_id
+            order_detail.order_id = order.order_id
+            order_detail.quantity = int(y)
+            order_detail.save()
+            item.append(it.name)
+            item.append(y)
+            totalprice += item_rest.cost*y
+            item.append(item_rest.cost*y)
+            items.append(item)
+        order.tax = 0.05 * totalprice
+        order.instructions = request.POST['instruct']
+        order.user = request.user
+        order.datetime = datetime.now()
+        order.offer = Offer.objects.get(offer_id='1')
+        order.save()
+
+        context = {
+            "items": items,
+            "totalprice": totalprice,
+            "order": order,
+            "oid":order.order_id
+
+        }
+        return render(request, 'webapp/order.html', context)
+
+
+
+
+
+
+
+
+
+        # oid.orderedBy = uid[0]
+        # for x, y in cart.items():
+        #     item = []
+        #     it = Menu.objects.filter(id=int(x))
+        #     if len(it):
+        #         oiid = orderItem()
+        #         oiid.item_id = it[0]
+        #         oiid.quantity = int(y)
+        #         oid.r_id = it[0].r_id
+        #         oid.save()
+        #         oiid.ord_id = oid
+        #         oiid.save()
+        #         totalprice += int(y) * it[0].price
+        #         item.append(it[0].item_id.fname)
+        #         it[0].quantity = it[0].quantity - y
+        #         it[0].save()
+        #         item.append(y)
+        #         item.append(it[0].price * int(y))
+        #
+        #     items.append(item)
+        # oid.total_amount = totalprice
+        # oid.save()
+        # context = {
+        #     "items": items,
+        #     "totalprice": totalprice,
+        #     "oid": oid.id
+        # }
+        # return render(request, 'webapp/order.html', context)
 # #
 # #
 # # ####### ------------------- Restaurant Side ------------------- #####
