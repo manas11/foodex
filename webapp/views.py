@@ -1,19 +1,18 @@
 from django.contrib.auth import authenticate
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth import authenticate, login, logout
-from xdg import Menu
 
-from webapp.models import Location, RestaurantOwner, Restaurant, FoodRestaurant, FoodItem, ItemType
+from webapp.models import Location, RestaurantOwner, Restaurant
 from .forms import CustomerRegisterForm, CustomerRegisterProfileForm, RestaurantRegisterForm, \
     RestaurantRegisterProfileForm, RestaurantDetailForm
-
 
 # from django.contrib.auth.decorators import login_required
 # from collections import Counter
 # from django.urls import reverse
-# from django.db.models import Q
+from django.db.models import Q
+
+
 #
 #
 # # from .models import Customer, Restaurant, Item, Menu, Order, orderItem, User
@@ -128,7 +127,7 @@ def restaurant_login(request):
         print(user)
         if user is not None:
             login(request, user)
-            return redirect('menu')
+            return redirect('index')
         else:
             return render(request, 'webapp/restaurant_login.html', {'error_message': 'Your account disable'})
     else:
@@ -149,17 +148,28 @@ def restaurant_detail(request):
         instance.cuisine_id = 1
         instance.save()
         return redirect("index")
+    loc = Location.objects.all()
+    locations = []
+    for x in loc:
+        lps = [x.LocationId, x.LocationName]
+        locations.append(lps)
     context = {
         'form': form,
+        'locations': locations,
         'title': "Complete Your profile"
-    }
+        }
     return render(request, 'webapp/restaurant_detail.html', context)
 
 
 def restaurant_index(request):
-    restaurants = Restaurant.objects.all()
-    return render(request, 'webapp/restaurant_index.html', {'restaurants': restaurants})
-
+    r_object = Restaurant.objects.all()
+    query = request.GET.get('q')
+    if query:
+        r_object = Restaurant.objects.filter(Q(location_id__iins=query)).distinct()
+        return render(request, 'webapp/restaurant_index.html', {'r_object': r_object})
+    return render(request, 'webapp/restaurant_index.html', {'r_object': r_object})
+# #
+# #
 
 # def orderplaced(request):
 
@@ -356,109 +366,61 @@ def restaurant_index(request):
 # #     return render(request, 'webapp/rest_profile_form.html', context)
 # #
 # #
-# add  menu item for restaurant
-@login_required(login_url='/login/restaurant/')
-def menu_manipulation(request):
-    if not request.user.is_authenticated:
-        return redirect("rlogin")
-    rest = Restaurant.objects.get(owner=RestaurantOwner.objects.get(user_id=request.user.id))
-    if request.POST:
-        print("8")
-        rtype = request.POST['submit']
-        print(rtype)
-        if rtype == "Modify":
-            print("23")
-            foodid = int(request.POST['fooditemid'])
-            food = FoodRestaurant.objects.get(food_item_id=foodid)
-            food.cost = int(request.POST['cost'])
-            foodItem = FoodItem.objects.get(food_item_id=foodid)
-            foodItem.name = request.POST['name']
-            is_veg = request.POST['is_veg']
-            print(is_veg)
-            if is_veg:
-                foodItem.is_veg = True
-            else:
-                foodItem.is_veg = False
-
-            ittype = ItemType.objects.get(type_id=request.POST['type'])
-            foodItem.type = ittype
-            foodItem.save()
-            food.save()
-
-        elif rtype == "Add":
-            print("13")
-            foodrest = FoodRestaurant()
-            name = request.POST['name']
-            try:
-                item = FoodItem.objects.get(name=name)
-            except FoodItem.DoesNotExist:
-                item = None
-            if item is not None:
-                print("6")
-                foodrest.food_item_id = item.food_item_id
-            else:
-                print("2")
-                fooditem = FoodItem()
-                fooditem.name = name
-                is_veg = request.POST['is_veg']
-                if is_veg == 1:
-                    print("3")
-                    fooditem.is_veg = True
-                else:
-                    print("4")
-                    fooditem.is_veg = False
-                fooditem.type_id = int(request.POST['type_id'])
-                foodrest.food_item_id = fooditem.food_item_id
-                fooditem.save()
-                print("5")
-            print("7")
-            foodrest.restaurant = rest
-            foodrest.cost = request.POST['cost']
-            foodrest.save()
-        else:
-
-            foodid = int(request.POST['fooditemid'])
-            try:
-                food = FoodRestaurant.objects.get(food_item_id=foodid)
-                food.delete()
-            except FoodRestaurant.DoesNotExist:
-                print("d")
-
-    food = FoodRestaurant.objects.filter(restaurant=rest)
-    menu = []
-    for x in food:
-        y = FoodItem.objects.get(food_item_id=x.food_item_id)
-        cmenu = []
-        cmenu.append(x.food_item_id)
-        cmenu.append(y.name)
-        cmenu.append(x.cost)
-        cmenu.append(x.restaurant)
-        cmenu.append(y.is_veg)
-
-        print("yello")
-        print(y.type)
-        itype = ItemType.objects.get(type_id=y.type.type_id)
-        cmenu.append(itype.name)
-        cmenu.append(itype.type_id)
-        if y.is_veg == 1:
-            cmenu.append("veg")
-        else:
-            cmenu.append("non veg")
-        menu.append(cmenu)
-
-    i1 = ItemType.objects.all()
-    itemtypes = []
-    vegarray = [[0, "non veg"], [1, "veg"]]
-    for x in i1:
-        itemtypes.append([x.type_id, x.name])
-    context = {
-        "menu": menu,
-        "user": request.user,
-        "itemtypes": itemtypes,
-        "vegarray": vegarray,
-    }
-    return render(request, 'webapp/menu_modify.html', context)
-
+# # # add  menu item for restaurant
+# # @login_required(login_url='/login/restaurant/')
+# # def menuManipulation(request):
+# #     if not request.user.is_authenticated:
+# #         return redirect("rlogin")
+# #
+# #     rest = Restaurant.objects.filter(id=request.user.restaurant.id);
+# #     rest = rest[0]
+# #     if request.POST:
+# #         type = request.POST['submit']
+# #         if type == "Modify":
+# #             menuid = int(request.POST['menuid'])
+# #             memu = Menu.objects.filter(id=menuid). \
+# #                 update(price=int(request.POST['price']), quantity=int(request.POST['quantity']))
+# #         elif type == "Add":
+# #             itemid = int(request.POST['item'])
+# #             item = Item.objects.filter(id=itemid)
+# #             item = item[0]
+# #             menu = Menu()
+# #             menu.item_id = item
+# #             menu.r_id = rest
+# #             menu.price = int(request.POST['price'])
+# #             menu.quantity = int(request.POST['quantity'])
+# #             menu.save()
+# #         else:
+# #             menuid = int(request.POST['menuid'])
+# #             menu = Menu.objects.filter(id=menuid)
+# #             menu[0].delete()
+# #
+# #     menuitems = Menu.objects.filter(r_id=rest)
+# #     menu = []
+# #     for x in menuitems:
+# #         cmenu = []
+# #         cmenu.append(x.item_id)
+# #         cmenu.append(x.price)
+# #         cmenu.append(x.quantity)
+# #         cmenu.append(x.id)
+# #         menu.append(cmenu)
+# #
+# #     menuitems = Item.objects.all()
+# #     items = []
+# #     for y in menuitems:
+# #         citem = []
+# #         citem.append(y.id)
+# #         citem.append(y.fname)
+# #         items.append(citem)
+# #
+# #     context = {
+# #         "menu": menu,
+# #         "items": items,
+# #         "username": request.user.username,
+# #     }
+# #     return render(request, 'webapp/menu_modify.html', context)
+# #
+# #
 # # def orderlist(request):
 # #     if request.POST:
 # #         oid = request.POST['orderid']
