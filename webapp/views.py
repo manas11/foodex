@@ -538,20 +538,22 @@ def orderlist(request):
         customer = Customer.objects.get(id=order.user_id)
         corder.append(customer)
         corder.append(customer.phone)
-        items_list = OrderDetail.objects.filter(order_id=order.id)
+        items_list = OrderDetail.objects.filter(order_id=order.order_id)
         items = []
+        without_tax=0
         for item in items_list:
             citem = []
             citem.append(item.food_item)
             citem.append(item.quantity)
             fooditem = FoodRestaurant.objects.get(food_item_id=item.food_item)
+            without_tax += fooditem.cost * item.quantity
             citem.append(fooditem.cost * item.quantity)
             items.append(citem)
 
         corder.append(items)
-        corder.append(order.total_amount+order.tax)
+        corder.append(without_tax + order.tax)
         corder.append(order.instructions)
-        corder.append(order.id)
+        corder.append(order.order_id)
 
         x = order.status
         if x == Order.ORDER_STATE_WAITING:
