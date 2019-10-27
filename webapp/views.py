@@ -530,6 +530,8 @@ def orderlist(request):
     ownner = RestaurantOwner.objects.get(user_id=request.user.id )
     restaurant = Restaurant.objects.get(owner=ownner)
     orders = Order.objects.filter(restaurant=restaurant).order_by('-datetime')
+    print("hi")
+    print(orders[0].instructions)
     corders = []
 
     for order in orders:
@@ -537,9 +539,14 @@ def orderlist(request):
         # user = User.objects.get(id=order.user_id)
         corder = []
         customer = Customer.objects.get(id=order.user_id)
+        # print('cust')
+        # print(customer.f_name)
         corder.append(customer)
         corder.append(customer.phone)
         items_list = OrderDetail.objects.filter(order_id=order.order_id)
+        print("item")
+        print(items_list[0].)
+
         items = []
         without_tax=0
         for item in items_list:
@@ -548,7 +555,7 @@ def orderlist(request):
             citem.append(item.quantity)
             fooditem = FoodRestaurant.objects.get(food_item_id=item.food_item)
             without_tax += fooditem.cost * item.quantity
-            citem.append(fooditem.cost * item.quantity)
+            citem.append(without_tax)
             items.append(citem)
 
         corder.append(items)
