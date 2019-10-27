@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth import authenticate, login, logout
 from xdg import Menu
+from collections import Counter
 
 from webapp.models import Location, RestaurantOwner, Restaurant, FoodRestaurant, FoodItem, ItemType, User, Order, \
     Customer, OrderDetail
@@ -257,7 +258,8 @@ def restuarantMenu(request, pk=None):
     for i in menu:
         item = FoodItem.objects.filter(food_item_id=i.food_item_id)
         for content in item:
-            temp = [content.name, content.is_veg, content.itemtype.name, i.cost, i.food_item_id]
+            ml = ItemType.objects.get(type_id=content.type_id)
+            temp = [content.name, content.is_veg, ml.name, i.cost, i.food_item_id]
             items.append(temp)
     context = {
         'items': items,
@@ -276,50 +278,50 @@ def restuarantMenu(request, pk=None):
 
 # #
 # #
-# # @login_required(login_url='/login/user/')
-# # def checkout(request):
-# #     if request.POST:
-# #         addr = request.POST['address']
-# #         ordid = request.POST['oid']
-# #         Order.objects.filter(id=int(ordid)).update(delivery_addr=addr,
-# #                                                    status=Order.ORDER_STATE_PLACED)
-# #         return redirect('/orderplaced/')
-# #     else:
-# #         cart = request.COOKIES['cart'].split(",")
-# #         cart = dict(Counter(cart))
-# #         items = []
-# #         totalprice = 0
-# #         uid = User.objects.filter(username=request.user)
-# #         oid = Order()
-# #         oid.orderedBy = uid[0]
-# #         for x, y in cart.items():
-# #             item = []
-# #             it = Menu.objects.filter(id=int(x))
-# #             if len(it):
-# #                 oiid = orderItem()
-# #                 oiid.item_id = it[0]
-# #                 oiid.quantity = int(y)
-# #                 oid.r_id = it[0].r_id
-# #                 oid.save()
-# #                 oiid.ord_id = oid
-# #                 oiid.save()
-# #                 totalprice += int(y) * it[0].price
-# #                 item.append(it[0].item_id.fname)
-# #                 it[0].quantity = it[0].quantity - y
-# #                 it[0].save()
-# #                 item.append(y)
-# #                 item.append(it[0].price * int(y))
-# #
-# #             items.append(item)
-# #         oid.total_amount = totalprice
-# #         oid.save()
-# #         context = {
-# #             "items": items,
-# #             "totalprice": totalprice,
-# #             "oid": oid.id
-# #         }
-# #         return render(request, 'webapp/order.html', context)
-# #
+@login_required(login_url='/login/customer/')
+def checkout(request):
+    if request.POST:
+        addr = request.POST['address']
+        ordid = request.POST['oid']
+        Order.objects.filter(id=int(ordid)).update(delivery_addr=addr,
+                                                   status=Order.ORDER_STATE_PLACED)
+        return redirect('/orderplaced/')
+    else:
+        cart = request.COOKIES['cart'].split(",")
+        cart = dict(Counter(cart))
+        items = []
+        totalprice = 0
+        uid = User.objects.filter(username=request.user)
+        oid = Order()
+        oid.orderedBy = uid[0]
+        for x, y in cart.items():
+            item = []
+            it = Menu.objects.filter(id=int(x))
+            if len(it):
+                oiid = orderItem()
+                oiid.item_id = it[0]
+                oiid.quantity = int(y)
+                oid.r_id = it[0].r_id
+                oid.save()
+                oiid.ord_id = oid
+                oiid.save()
+                totalprice += int(y) * it[0].price
+                item.append(it[0].item_id.fname)
+                it[0].quantity = it[0].quantity - y
+                it[0].save()
+                item.append(y)
+                item.append(it[0].price * int(y))
+
+            items.append(item)
+        oid.total_amount = totalprice
+        oid.save()
+        context = {
+            "items": items,
+            "totalprice": totalprice,
+            "oid": oid.id
+        }
+        return render(request, 'webapp/order.html', context)
+
 # #
 # # ####### ------------------- Restaurant Side ------------------- #####
 # #
@@ -534,7 +536,7 @@ def orderlist(request):
             elif select == 5:
                 x = Order.ORDER_STATE_CANCELLED
             else:
-                x=1
+                x = 1
             order.status = x
             print("ml")
             order.save()
