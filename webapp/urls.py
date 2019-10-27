@@ -12,7 +12,7 @@ urlpatterns = [
     path('restaurant/detail', views.restaurant_detail, name='restaurant_detail'),
     path('logout_view/', views.logout_view, name='logout_view'),
     path('restaurants/', views.restaurant_index, name='restaurant_index'),
-
+    path('restaurant/menu/', views.menu_manipulation, name='menu'),
     # path('orderplaced/',views.orderplaced),
     # path('restaurant/',views.restuarent,name='restuarant'),
     # path('profile/restaurant/',views.restaurantProfile,name='rprofile'),
@@ -22,7 +22,6 @@ urlpatterns = [
     # path('restaurant/create/',views.createRestaurant,name='rcreate'),
     # path('restaurant/update/<int:id>/',views.updateRestaurant,name='rupdate'),
     # path('restaurant/orderlist/',views.orderlist,name='orderlist'),
-    # path('restaurant/menu/',views.menuManipulation,name='mmenu'),
     # path('restaurant/<int:pk>/',views.restuarantMenu,name='menu'),
     # path('checkout/',views.checkout,name='checkout'),
 

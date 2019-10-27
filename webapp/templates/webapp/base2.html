@@ -31,10 +31,10 @@
                 <a class="nav-link text-light" href="{% url 'index' %}"><font size="3">&nbsp; <strong>Home</strong> </font></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light" href="{% url  'mmenu' %}"><font size="3">&nbsp;<strong>Menu </strong></font></a>
+                <a class="nav-link text-light" href="{% url  'menu' %}"><font size="3">&nbsp;<strong>Menu </strong></font></a>
             </li>
              <li class="nav-item">
-                <a class="nav-link text-light" href="{% url  'orderlist' %}"><font size="3">&nbsp;<strong>Orders</strong></font></a>
+                <a class="nav-link text-light" href="{% url  'index' %}"><font size="3">&nbsp;<strong>Orders</strong></font></a>
             </li>
             
         </ul>
@@ -51,17 +51,17 @@
         <ul class="navbar-nav mr-auto text-center">
           {% if request.user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link text-light " href="{% url 'logout' %}"><font size="3"> &nbsp;<span aria-hidden="true"></span><strong>LogOut </strong> </font></a>
+                <a class="nav-link text-light " href="{% url 'index' %}"><font size="3"> &nbsp;<span aria-hidden="true"></span><strong>LogOut </strong> </font></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light " href="{%url 'rprofile' %}"><font size="3"> &nbsp;<span aria-hidden="true"></span><strong>Profile</strong></font></a>
+                <a class="nav-link text-light " href="{%url 'index' %}"><font size="3"> &nbsp;<span aria-hidden="true"></span><strong>Profile</strong></font></a>
             </li>
           {% else %}
             <li class="nav-item">
-                <a class="nav-link text-light " href="{% url 'rlogin' %}"><font size="3">&nbsp;<span aria-hidden="true"></span> <strong>LogIn</strong></font></a>
+                <a class="nav-link text-light " href="{% url 'index' %}"><font size="3">&nbsp;<span aria-hidden="true"></span> <strong>LogIn</strong></font></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light " href="{% url 'rregister' %}"><font size="3">&nbsp;<span aria-hidden="true"></span> <strong>Join Us</strong></font></a>
+                <a class="nav-link text-light " href="{% url 'index' %}"><font size="3">&nbsp;<span aria-hidden="true"></span> <strong>Join Us</strong></font></a>
             </li>
             {% endif %}
         </ul>
