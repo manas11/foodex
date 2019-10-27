@@ -43,7 +43,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="{% url 'index' %}" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="{% url 'menu' %}" class="nav-link">Menu</a></li>
-                 <li class="nav-item"><a href="{% url 'menu' %}" class="nav-link">Order</a></li>
+                 <li class="nav-item"><a href="{% url 'orderlist' %}" class="nav-link">Order</a></li>
                 <li class="nav-item"><a href="{% url 'rest_profile' %}" class="nav-link">Profile</a></li>
                 {% if request.user.is_authenticated %}
                     <li class="nav-item"><a href="{% url 'logout_view' %}" class="nav-link">Logout</a></li>

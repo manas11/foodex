@@ -15,7 +15,7 @@ urlpatterns = [
 
     # path('orderplaced/',views.orderplaced),
     # path('restaurant/',views.restuarent,name='restuarant'),
-    path('profile/restaurant/', views.restaurantProfile, name='rest_profile'),
+    path('restaurant/profile', views.restaurantProfile, name='rest_profile'),
     path('restaurant/menu/', views.menu_manipulation, name='menu'),
 
     # path('profile/user/',views.customerProfile,name='profile'),
@@ -23,7 +23,7 @@ urlpatterns = [
     # path('user/update/<int:id>/',views.updateCustomer,name='cupdate'),
     # path('restaurant/create/',views.createRestaurant,name='rcreate'),
     # path('restaurant/update/<int:id>/',views.updateRestaurant,name='rupdate'),
-    # path('restaurant/orderlist/',views.orderlist,name='orderlist'),
+    path('restaurant/orderlist/', views.orderlist, name='orderlist'),
     # path('restaurant/menu/',views.menuManipulation,name='mmenu'),
     # path('restaurant/<int:pk>/',views.restuarantMenu,name='menu'),
     # path('checkout/',views.checkout,name='checkout'),

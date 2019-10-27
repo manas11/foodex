@@ -5,7 +5,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from xdg import Menu
 
-from webapp.models import Location, RestaurantOwner, Restaurant, FoodRestaurant, FoodItem, ItemType, User
+from webapp.models import Location, RestaurantOwner, Restaurant, FoodRestaurant, FoodItem, ItemType, User, Order, \
+    Customer, OrderDetail
 from .forms import CustomerRegisterForm, CustomerRegisterProfileForm, RestaurantRegisterForm, \
     RestaurantRegisterProfileForm, RestaurantDetailForm
 
@@ -478,81 +479,77 @@ def menu_manipulation(request):
     }
     return render(request, 'webapp/menu_modify.html', context)
 
-# # def orderlist(request):
-# #     if request.POST:
-# #         oid = request.POST['orderid']
-# #         select = request.POST['orderstatus']
-# #         select = int(select)
-# #         order = Order.objects.filter(id=oid)
-# #         if len(order):
-# #             x = Order.ORDER_STATE_WAITING
-# #             if select == 1:
-# #                 x = Order.ORDER_STATE_PLACED
-# #             elif select == 2:
-# #                 x = Order.ORDER_STATE_ACKNOWLEDGED
-# #             elif select == 3:
-# #                 x = Order.ORDER_STATE_COMPLETED
-# #             elif select == 4:
-# #                 x = Order.ORDER_STATE_DISPATCHED
-# #             elif select == 5:
-# #                 x = Order.ORDER_STATE_CANCELLED
-# #             else:
-# #                 x = Order.ORDER_STATE_WAITING
-# #             order[0].status = x
-# #             order[0].save()
-# #
-# #     orders = Order.objects.filter(r_id=request.user.restaurant.id).order_by('-timestamp')
-# #     corders = []
-# #
-# #     for order in orders:
-# #
-# #         user = User.objects.filter(id=order.orderedBy.id)
-# #         user = user[0]
-# #         corder = []
-# #         if user.is_restaurant:
-# #             corder.append(user.restaurant.rname)
-# #             corder.append(user.restaurant.info)
-# #         else:
-# #             corder.append(user.customer.f_name)
-# #             corder.append(user.customer.phone)
-# #         items_list = orderItem.objects.filter(ord_id=order)
-# #
-# #         items = []
-# #         for item in items_list:
-# #             citem = []
-# #             citem.append(item.item_id)
-# #             citem.append(item.quantity)
-# #             menu = Menu.objects.filter(id=item.item_id.id)
-# #             citem.append(menu[0].price * item.quantity)
-# #             menu = 0
-# #             items.append(citem)
-# #
-# #         corder.append(items)
-# #         corder.append(order.total_amount)
-# #         corder.append(order.id)
-# #
-# #         x = order.status
-# #         if x == Order.ORDER_STATE_WAITING:
-# #             continue
-# #         elif x == Order.ORDER_STATE_PLACED:
-# #             x = 1
-# #         elif x == Order.ORDER_STATE_ACKNOWLEDGED:
-# #             x = 2
-# #         elif x == Order.ORDER_STATE_COMPLETED:
-# #             x = 3
-# #         elif x == Order.ORDER_STATE_DISPATCHED:
-# #             x = 4
-# #         elif x == Order.ORDER_STATE_CANCELLED:
-# #             x = 5
-# #         else:
-# #             continue
-# #
-# #         corder.append(x)
-# #         corder.append(order.delivery_addr)
-# #         corders.append(corder)
-# #
-# #     context = {
-# #         "orders": corders,
-# #     }
-# #
-# #     return render(request, "webapp/order-list.html", context)
+
+def orderlist(request):
+    if request.POST:
+        oid = request.POST['orderid']
+        select = request.POST['orderstatus']
+        select = int(select)
+        order = Order.objects.get(order_id=oid)
+        if len(order):
+            x = Order.ORDER_STATE_WAITING
+            if select == 1:
+                x = Order.ORDER_STATE_PLACED
+            elif select == 2:
+                x = Order.ORDER_STATE_ACKNOWLEDGED
+            elif select == 3:
+                x = Order.ORDER_STATE_COMPLETED
+            elif select == 4:
+                x = Order.ORDER_STATE_DISPATCHED
+            elif select == 5:
+                x = Order.ORDER_STATE_CANCELLED
+            else:
+                x = Order.ORDER_STATE_WAITING
+            order.status = x
+            order.save()
+    ownner = RestaurantOwner.objects.get(user_id=request.user.id )
+    restaurant = Restaurant.objects.get(owner=ownner)
+    orders = Order.objects.filter(restaurant=restaurant).order_by('-datetime')
+    corders = []
+
+    for order in orders:
+
+        # user = User.objects.get(id=order.user_id)
+        corder = []
+        customer = Customer.objects.get(id=order.user_id)
+        corder.append(customer)
+        corder.append(customer.phone)
+        items_list = OrderDetail.objects.filter(order_id=order.id)
+        items = []
+        for item in items_list:
+            citem = []
+            citem.append(item.food_item)
+            citem.append(item.quantity)
+            fooditem = FoodRestaurant.objects.get(food_item_id=item.food_item)
+            citem.append(fooditem.cost * item.quantity)
+            items.append(citem)
+
+        corder.append(items)
+        corder.append(order.total_amount+order.tax)
+        corder.append(order.instructions)
+        corder.append(order.id)
+
+        x = order.status
+        if x == Order.ORDER_STATE_WAITING:
+            continue
+        elif x == Order.ORDER_STATE_PLACED:
+            x = 1
+        elif x == Order.ORDER_STATE_ACKNOWLEDGED:
+            x = 2
+        elif x == Order.ORDER_STATE_COMPLETED:
+            x = 3
+        elif x == Order.ORDER_STATE_DISPATCHED:
+            x = 4
+        elif x == Order.ORDER_STATE_CANCELLED:
+            x = 5
+        else:
+            continue
+
+        corder.append(x)
+        corders.append(corder)
+
+    context = {
+        "orders": corders,
+    }
+
+    return render(request, "webapp/order-list.html", context)
