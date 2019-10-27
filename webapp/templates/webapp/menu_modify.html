@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{% static "css/icomoon.css" %}">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
     <link rel="stylesheet" href="{% static "css/index.css" %}">
+    <link rel="stylesheet" href="{% static "css/table_profile.css" %}">
 
 </head>
 <body>
@@ -113,7 +114,7 @@
                                 {% endfor %}
                             </select>
                             </td>
-                            <td><input type="text" value="{{ x.4 }}" name="is_veg"/></td>
+{#                            <td><input type="text" value="{{ x.4 }}" name="is_veg"/></td>#}
 
                             <td><select name="type" id="type" required>
                                 <option value="{{ x.6 }}">{{ x.5 }}</option>
