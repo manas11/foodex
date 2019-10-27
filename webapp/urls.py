@@ -25,7 +25,7 @@ urlpatterns = [
     # path('restaurant/update/<int:id>/',views.updateRestaurant,name='rupdate'),
     path('restaurant/orderlist/', views.orderlist, name='orderlist'),
     # path('restaurant/menu/',views.menuManipulation,name='mmenu'),
-    # path('restaurant/<int:pk>/',views.restuarantMenu,name='menu'),
+    path('restaurant/<int:pk>/', views.restuarantMenu, name='menu'),
     # path('checkout/',views.checkout,name='checkout'),
 
 ]

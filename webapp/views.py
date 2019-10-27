@@ -249,31 +249,27 @@ def restaurantProfile(request, pk=None):
 # #     return render(request, 'webapp/customer_profile_register.html', context)
 # #
 # #
-# # def restuarantMenu(request, pk=None):
-# #     menu = Menu.objects.filter(r_id=pk)
-# #     rest = Restaurant.objects.filter(id=pk)
-# #
-# #     items = []
-# #     for i in menu:
-# #         item = Item.objects.filter(fname=i.item_id)
-# #         for content in item:
-# #             temp = []
-# #             temp.append(content.fname)
-# #             temp.append(content.category)
-# #             temp.append(i.price)
-# #             temp.append(i.id)
-# #             temp.append(rest[0].status)
-# #             temp.append(i.quantity)
-# #             items.append(temp)
-# #     context = {
-# #         'items': items,
-# #         'rid': pk,
-# #         'rname': rest[0].rname,
-# #         'rmin': rest[0].min_ord,
-# #         'rinfo': rest[0].info,
-# #         'rlocation': rest[0].location,
-# #     }
-# #     return render(request, 'webapp/menu.html', context)
+def restuarantMenu(request, pk=None):
+    menu = FoodRestaurant.objects.filter(restaurant_id=pk)
+    rest = Restaurant.objects.filter(id=pk)
+
+    items = []
+    for i in menu:
+        item = FoodItem.objects.filter(food_item_id=i.food_item_id)
+        for content in item:
+            temp = [content.fname, content.category, i.price, i.id, rest[0].status, i.quantity]
+            items.append(temp)
+    context = {
+        'items': items,
+        'rid': pk,
+        'rname': rest[0].rname,
+        'rmin': rest[0].min_ord,
+        'rinfo': rest[0].info,
+        'rlocation': rest[0].location,
+    }
+    return render(request, 'webapp/menu.html', context)
+
+
 # #
 # #
 # # @login_required(login_url='/login/user/')
