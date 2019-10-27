@@ -135,7 +135,7 @@ class Order(models.Model):
     status = models.CharField(max_length=50, choices=ORDER_STATE_CHOICES, default=ORDER_STATE_WAITING)
 
     def __str__(self):
-        return str(self.order_id) + ' ' + self.status
+        return str(self.order_id) + ' ' + str(self.status)
 
 
 class OrderDetail(models.Model):

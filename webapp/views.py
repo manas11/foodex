@@ -527,7 +527,7 @@ def orderlist(request):
                 x = Order.ORDER_STATE_WAITING
             order.status = x
             order.save()
-    ownner = RestaurantOwner.objects.get(user_id=request.user.id )
+    ownner = RestaurantOwner.objects.get(user_id=request.user.id)
     restaurant = Restaurant.objects.get(owner=ownner)
     orders = Order.objects.filter(restaurant=restaurant).order_by('-datetime')
     print("hi")
@@ -545,17 +545,19 @@ def orderlist(request):
         corder.append(customer.phone)
         items_list = OrderDetail.objects.filter(order_id=order.order_id)
         print("item")
-        print(items_list[0].)
+        # print(items_list[0].)
 
         items = []
-        without_tax=0
+        without_tax = 0
         for item in items_list:
             citem = []
             citem.append(item.food_item)
             citem.append(item.quantity)
-            fooditem = FoodRestaurant.objects.get(food_item_id=item.food_item)
+            fooditem = FoodRestaurant.objects.get(food_item_id=item.id)
+            print("ok")
+            print(fooditem.cost)
             without_tax += fooditem.cost * item.quantity
-            citem.append(without_tax)
+            citem.append(fooditem.cost * item.quantity)
             items.append(citem)
 
         corder.append(items)
@@ -563,21 +565,23 @@ def orderlist(request):
         corder.append(order.instructions)
         corder.append(order.order_id)
 
-        x = order.status
-        if x == Order.ORDER_STATE_WAITING:
-            continue
-        elif x == Order.ORDER_STATE_PLACED:
-            x = 1
-        elif x == Order.ORDER_STATE_ACKNOWLEDGED:
-            x = 2
-        elif x == Order.ORDER_STATE_COMPLETED:
-            x = 3
-        elif x == Order.ORDER_STATE_DISPATCHED:
-            x = 4
-        elif x == Order.ORDER_STATE_CANCELLED:
-            x = 5
-        else:
-            continue
+        # x = order.status
+        # if x == Order.ORDER_STATE_WAITING:
+        #     continue
+        # elif x == Order.ORDER_STATE_PLACED:
+        #     x = 1
+        # elif x == Order.ORDER_STATE_ACKNOWLEDGED:
+        #     x = 2
+        # elif x == Order.ORDER_STATE_COMPLETED:
+        #     x = 3
+        # elif x == Order.ORDER_STATE_DISPATCHED:
+        #     x = 4
+        # elif x == Order.ORDER_STATE_CANCELLED:
+        #     x = 5
+        # else:
+        #     continue
+        x = 1
+        print('i am here')
 
         corder.append(x)
         corders.append(corder)
