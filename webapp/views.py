@@ -251,21 +251,25 @@ def restaurantProfile(request, pk=None):
 # #
 def restuarantMenu(request, pk=None):
     menu = FoodRestaurant.objects.filter(restaurant_id=pk)
-    rest = Restaurant.objects.filter(id=pk)
+    rest = Restaurant.objects.filter(restaurant_id=pk)
 
     items = []
     for i in menu:
         item = FoodItem.objects.filter(food_item_id=i.food_item_id)
         for content in item:
-            temp = [content.fname, content.category, i.price, i.id, rest[0].status, i.quantity]
+            temp = [content.name, content.is_veg, content.itemtype.name, i.cost, i.food_item_id]
             items.append(temp)
     context = {
         'items': items,
-        'rid': pk,
-        'rname': rest[0].rname,
-        'rmin': rest[0].min_ord,
-        'rinfo': rest[0].info,
-        'rlocation': rest[0].location,
+        'r_id': pk,
+        'r_name': rest[0].name,
+        'r_cost': rest[0].avg_cost,
+        'r_time': rest[0].avg_time,
+        'r_phone': rest[0].phone,
+        'r_logo': rest[0].r_logo,
+        'r_cuisine': rest[0].cuisine.cuisine_name,
+        'r_add': rest[0].address,
+        # 'rlocation': rest[0].location,
     }
     return render(request, 'webapp/menu.html', context)
 
