@@ -26,7 +26,7 @@ class CustomerRegisterForm(forms.ModelForm):
 class CustomerRegisterProfileForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['f_name', 'l_name', 'addressline1', 'phone', 'addressline2']
+        fields = ['f_name', 'l_name', 'addressline1', 'phone', 'addressline2', 'location']
 
 
 class RestaurantRegisterForm(forms.ModelForm):
@@ -47,13 +47,20 @@ class RestaurantRegisterForm(forms.ModelForm):
 class RestaurantRegisterProfileForm(forms.ModelForm):
     class Meta:
         model = RestaurantOwner
-        fields = ['f_name', 'l_name', 'addressline1', 'phone', 'addressline2']
+        fields = ['f_name', 'l_name', 'addressline1', 'phone', 'addressline2', 'location']
 
+
+# class RestaurantDetailForm(forms.ModelForm):
+#     class Meta:
+#         model = Restaurant
+#         fields = ['name', 'address', 'avg_cost', 'avg_time', 'phone', 'r_logo']
 
 class RestaurantDetailForm(forms.ModelForm):
+    # field1 = forms.ModelChoiceField(queryset=Location.objects.all())
     class Meta:
         model = Restaurant
-        fields = ['name', 'address', 'avg_cost', 'avg_time', 'phone', 'r_logo']
+        fields = ('name', 'address', 'avg_cost', 'avg_time', 'phone', 'r_logo', 'location')
+
 
 
 # def formfield_for_foreignkey(self, db_field, request, **kwargs):
