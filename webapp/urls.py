@@ -15,7 +15,9 @@ urlpatterns = [
 
     # path('orderplaced/',views.orderplaced),
     # path('restaurant/',views.restuarent,name='restuarant'),
-    path('profile/restaurant/',views.restaurantProfile,name='rest_profile'),
+    path('profile/restaurant/', views.restaurantProfile, name='rest_profile'),
+    path('restaurant/menu/', views.menu_manipulation, name='menu'),
+
     # path('profile/user/',views.customerProfile,name='profile'),
     # path('user/create/',views.createCustomer,name='ccreate'),
     # path('user/update/<int:id>/',views.updateCustomer,name='cupdate'),
