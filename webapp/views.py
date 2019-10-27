@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from xdg import Menu
 
-from webapp.models import Location, RestaurantOwner, Restaurant, FoodRestaurant, FoodItem, ItemType
+from webapp.models import Location, RestaurantOwner, Restaurant, FoodRestaurant, FoodItem, ItemType, User
 from .forms import CustomerRegisterForm, CustomerRegisterProfileForm, RestaurantRegisterForm, \
     RestaurantRegisterProfileForm, RestaurantDetailForm
 
@@ -316,14 +316,25 @@ def restaurant_index(request):
 # #     return render(request, 'webapp/restlogin.html')
 # #
 # #
-# # # restaurant profile view
-# # def restaurantProfile(request, pk=None):
-# #     if pk:
-# #         user = User.objects.get(pk=pk)
-# #     else:
-# #         user = request.user
-# #
-# #     return render(request, 'webapp/rest_profile.html', {'user': user})
+# restaurant profile view
+def restaurantProfile(request, pk=None):
+    if pk:
+        user = User.objects.get(pk=pk)
+    else:
+        user = request.user
+
+    restaurant_owner = RestaurantOwner.objects.get(user_id=request.user.id)
+    restaurant = Restaurant.objects.get(owner_id=restaurant_owner)
+
+    Context = {
+        'user': user,
+        'restaurant': restaurant,
+        'restaurant_owner':restaurant_owner,
+
+    }
+
+    return render(request, 'webapp/rest_profile.html', Context)
+
 # #
 # #
 # # # create restaurant detail
