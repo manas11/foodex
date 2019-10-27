@@ -509,10 +509,20 @@ def orderlist(request):
     if request.POST:
         oid = request.POST['orderid']
         select = request.POST['orderstatus']
+        print("manas")
+        print(oid)
         select = int(select)
-        order = Order.objects.get(order_id=oid)
-        if len(order):
-            x = Order.ORDER_STATE_WAITING
+        print(select)
+
+        try:
+            order = Order.objects.get(order_id=oid)
+        except Order.DoesNotExist:
+            order = None
+
+        # print(order.restaurant.name)
+        if order is not None:
+            # x = Order.ORDER_STATE_WAITING
+
             if select == 1:
                 x = Order.ORDER_STATE_PLACED
             elif select == 2:
@@ -524,8 +534,9 @@ def orderlist(request):
             elif select == 5:
                 x = Order.ORDER_STATE_CANCELLED
             else:
-                x = Order.ORDER_STATE_WAITING
+                x=1
             order.status = x
+            print("ml")
             order.save()
     ownner = RestaurantOwner.objects.get(user_id=request.user.id)
     restaurant = Restaurant.objects.get(owner=ownner)
@@ -541,7 +552,7 @@ def orderlist(request):
         customer = Customer.objects.get(id=order.user_id)
         # print('cust')
         # print(customer.f_name)
-        corder.append(customer)
+        corder.append(customer.f_name + ' ' + customer.l_name)
         corder.append(customer.phone)
         items_list = OrderDetail.objects.filter(order_id=order.order_id)
         print("item")
@@ -551,7 +562,8 @@ def orderlist(request):
         without_tax = 0
         for item in items_list:
             citem = []
-            citem.append(item.food_item)
+            item_name = FoodItem.objects.get(food_item_id=item.food_item_id)
+            citem.append(item_name.name)
             citem.append(item.quantity)
             fooditem = FoodRestaurant.objects.get(food_item_id=item.id)
             print("ok")
@@ -562,25 +574,25 @@ def orderlist(request):
 
         corder.append(items)
         corder.append(without_tax + order.tax)
+        corder.append(without_tax)
+        corder.append(order.tax)
         corder.append(order.instructions)
         corder.append(order.order_id)
 
-        # x = order.status
-        # if x == Order.ORDER_STATE_WAITING:
-        #     continue
-        # elif x == Order.ORDER_STATE_PLACED:
-        #     x = 1
-        # elif x == Order.ORDER_STATE_ACKNOWLEDGED:
-        #     x = 2
-        # elif x == Order.ORDER_STATE_COMPLETED:
-        #     x = 3
-        # elif x == Order.ORDER_STATE_DISPATCHED:
-        #     x = 4
-        # elif x == Order.ORDER_STATE_CANCELLED:
-        #     x = 5
-        # else:
-        #     continue
-        x = 1
+        x = order.status
+        if x == Order.ORDER_STATE_PLACED:
+            x = 1
+        elif x == Order.ORDER_STATE_ACKNOWLEDGED:
+            x = 2
+        elif x == Order.ORDER_STATE_COMPLETED:
+            x = 3
+        elif x == Order.ORDER_STATE_DISPATCHED:
+            x = 4
+        elif x == Order.ORDER_STATE_CANCELLED:
+            x = 5
+        else:
+            continue
+        # x = 1
         print('i am here')
 
         corder.append(x)

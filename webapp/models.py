@@ -125,17 +125,17 @@ class Order(models.Model):
     ORDER_STATE_DISPATCHED = "Dispatched"
 
     ORDER_STATE_CHOICES = (
-        (ORDER_STATE_WAITING, ORDER_STATE_WAITING),
         (ORDER_STATE_PLACED, ORDER_STATE_PLACED),
         (ORDER_STATE_ACKNOWLEDGED, ORDER_STATE_ACKNOWLEDGED),
         (ORDER_STATE_COMPLETED, ORDER_STATE_COMPLETED),
         (ORDER_STATE_CANCELLED, ORDER_STATE_CANCELLED),
         (ORDER_STATE_DISPATCHED, ORDER_STATE_DISPATCHED)
     )
-    status = models.CharField(max_length=50, choices=ORDER_STATE_CHOICES, default=ORDER_STATE_WAITING)
+    status = models.CharField(max_length=50, choices=ORDER_STATE_CHOICES, default=ORDER_STATE_PLACED)
 
     def __str__(self):
-        return str(self.order_id) + ' ' + str(self.status)
+        g = str(self.order_id) + " " + self.status
+        return str(g)
 
 
 class OrderDetail(models.Model):
