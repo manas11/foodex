@@ -101,7 +101,8 @@
     <span><b>Tax: </b></span><span> &#x20b9; {{ order.tax }}
 				</span>
     <br>
-    <span><b><strong>Total Amount: </strong></b></span><span> <strong>&#x20b9; {{ totalprice }}
+    <span><b><strong>Total Amount: </strong></b></span><span> <strong>&#x20b9; {{ totalprice }}</strong></span>
+    <span><b><strong>Offer discount : </strong></b></span><span> <strong>&#x20b9; {{ yu.discount }}
 </strong></span>
     <br>
     <br>
@@ -112,13 +113,13 @@
         <br>
         <div><input type="text" name="instruct" style="width:60%; height: 60px;"/></div>
         <input type="hidden" name="oid" value="{{ oid }}">
-                <input type="hidden" name="total_price" value="{{ totalprice }}">
-
         <br>
+                        <input type="hidden" name="total_price" value="{{ totalprice }}">
+<br>
         <input type="submit" class="btn btn-success btn-lg" value="Pay Later" name="submit">
         <input type="submit" class="btn btn-success btn-lg" value="Pay Now" name="submit">
     </form>
 
 </div>
-
 </body>
+
