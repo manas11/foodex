@@ -49,6 +49,10 @@
                         <li class="nav-item"><a href="{% url 'restaurant_index' %}" class="nav-link">Restaurants</a>
                         </li>
                     {% endif %}
+                    {% if request.user.is_customer %}
+                        <li class="nav-item"><a href="{% url 'myorders' %}" class="nav-link">My Orders</a>
+                        </li>
+                    {% endif %}
                 {% else %}
                     <div class="dropdown">
                         <button class="dropbtn">Register</button>
