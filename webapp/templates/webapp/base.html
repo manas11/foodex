@@ -31,7 +31,7 @@
                 <a class="nav-link text-light" href="{% url 'index' %}"><font size="3">&nbsp; <strong>Home</strong> </font></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light" href="{% url 'restuarant' %}"><font size="3">&nbsp;<strong>Restuarants</strong></font></a>
+{#                <a class="nav-link text-light" href="{% url 'restuarant' %}"><font size="3">&nbsp;<strong>Restuarants</strong></font></a>#}
             </li>
             
         </ul>
@@ -48,17 +48,17 @@
         <ul class="navbar-nav mr-auto text-center">
           {% if request.user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link text-light" href="{% url 'logout' %}"><font size="3"> &nbsp;<span aria-hidden="true"></span><strong>LogOut </strong> </font></a>
+{#                <a class="nav-link text-light" href="{% url 'logout' %}"><font size="3"> &nbsp;<span aria-hidden="true"></span><strong>LogOut </strong> </font></a>#}
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light" href="{% url 'profile' %}"><font size="3"> &nbsp;<span aria-hidden="true"></span><strong>My Profile</strong></font></a>
+{#                <a class="nav-link text-light" href="{% url 'profile' %}"><font size="3"> &nbsp;<span aria-hidden="true"></span><strong>My Profile</strong></font></a>#}
             </li>
           {% else %}
             <li class="nav-item">
-                <a class="nav-link text-light" href="{% url 'login' %}"><font size="3">&nbsp;<span aria-hidden="true"></span> <strong>LogIn</strong></font></a>
+{#                <a class="nav-link text-light" href="{% url 'login' %}"><font size="3">&nbsp;<span aria-hidden="true"></span> <strong>LogIn</strong></font></a>#}
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light" href="{% url 'register' %}"><font size="3">&nbsp;<span aria-hidden="true"></span> <strong>SignUp</strong></font></a>
+{#                <a class="nav-link text-light" href="{% url 'register' %}"><font size="3">&nbsp;<span aria-hidden="true"></span> <strong>SignUp</strong></font></a>#}
             </li>
             {% endif %}
         </ul>

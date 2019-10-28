@@ -107,10 +107,10 @@ class Payment(models.Model):
 
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
-    offer = models.ForeignKey(Offer, on_delete=models.DO_NOTHING)
+    offer = models.ForeignKey(Offer, on_delete=models.DO_NOTHING, blank=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
-    payment_hash = models.ForeignKey(Payment, on_delete=models.DO_NOTHING)
+    payment_hash = models.ForeignKey(Payment, on_delete=models.DO_NOTHING, blank=True)
     datetime = models.DateTimeField(auto_now_add=True)
     instructions = models.TextField(blank=True)
     payment_mode_online = models.BooleanField(default=True)

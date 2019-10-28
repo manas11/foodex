@@ -1,10 +1,7 @@
-from collections import Counter
-
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
-
+from _datetime import datetime
 from django.contrib.auth import authenticate, login, logout
 from xdg import Menu
 
@@ -13,9 +10,10 @@ from webapp.models import Location, RestaurantOwner, Restaurant, FoodRestaurant,
 from .forms import CustomerRegisterForm, CustomerRegisterProfileForm, RestaurantRegisterForm, \
     RestaurantRegisterProfileForm, RestaurantDetailForm
 
-
 # from django.contrib.auth.decorators import login_required
-# from collections import Counter
+from collections import Counter
+
+
 # from django.urls import reverse
 # from django.db.models import Q
 #
@@ -252,39 +250,42 @@ def restaurantProfile(request, pk=None):
 # #     return render(request, 'webapp/customer_profile_register.html', context)
 # #
 # #
-# # def restuarantMenu(request, pk=None):
-# #     menu = Menu.objects.filter(r_id=pk)
-# #     rest = Restaurant.objects.filter(id=pk)
-# #
-# #     items = []
-# #     for i in menu:
-# #         item = Item.objects.filter(fname=i.item_id)
-# #         for content in item:
-# #             temp = []
-# #             temp.append(content.fname)
-# #             temp.append(content.category)
-# #             temp.append(i.price)
-# #             temp.append(i.id)
-# #             temp.append(rest[0].status)
-# #             temp.append(i.quantity)
-# #             items.append(temp)
-# #     context = {
-# #         'items': items,
-# #         'rid': pk,
-# #         'rname': rest[0].rname,
-# #         'rmin': rest[0].min_ord,
-# #         'rinfo': rest[0].info,
-# #         'rlocation': rest[0].location,
-# #     }
-# #     return render(request, 'webapp/menu.html', context)
+def restuarantMenu(request, pk=None):
+    menu = FoodRestaurant.objects.filter(restaurant_id=pk)
+    rest = Restaurant.objects.filter(restaurant_id=pk)
+
+    items = []
+    for i in menu:
+        item = FoodItem.objects.filter(food_item_id=i.food_item_id)
+        for content in item:
+            ml = ItemType.objects.get(type_id=content.type_id)
+            temp = [content.name, content.is_veg, ml.name, i.cost, i.food_item_id]
+            items.append(temp)
+    context = {
+        'items': items,
+        'r_id': pk,
+        'r_name': rest[0].name,
+        'r_cost': rest[0].avg_cost,
+        'r_time': rest[0].avg_time,
+        'r_phone': rest[0].phone,
+        'r_logo': rest[0].r_logo,
+        'r_cuisine': rest[0].cuisine.cuisine_name,
+        'r_add': rest[0].address,
+        # 'rlocation': rest[0].location,
+    }
+    return render(request, 'webapp/menu.html', context)
+
+
 # #
 # #
 @login_required(login_url='/login/user/')
 def checkout(request):
     if request.POST:
         ordid = request.POST['oid']
-        order = Order.objects.get(offer_id=ordid)
+        order = Order.objects.get(order_id=ordid)
         order.status = Order.ORDER_STATE_PLACED
+        order.payment_hash_id = 1
+        order.instructions = request.POST['instruct']
         order.save()
         return redirect('/orderplaced/')
     else:
@@ -294,11 +295,26 @@ def checkout(request):
         totalprice = 0
         order = Order()
 
+        # order.save()
+        print(order.order_id)
+        order.tax = 0.05 * totalprice
+        order.user = Customer.objects.get(user_id=request.user.id)
+        order.datetime = datetime.now()
+        order.offer = Offer.objects.get(offer_id=1)
+        for x, y in cart.items():
+            it = FoodItem.objects.get(food_item_id=int(x))
+            print(it.name)
+            item_rest = FoodRestaurant.objects.get(food_item_id=it.food_item_id)
+            order.restaurant = Restaurant.objects.get(restaurant_id=item_rest.restaurant.restaurant_id)
+        order.payment_hash_id = 1
+        order.save()
         for x, y in cart.items():
             item = []
             it = FoodItem.objects.get(food_item_id=int(x))
+            print(it.name)
             item_rest = FoodRestaurant.objects.get(food_item_id=it.food_item_id)
-            order.restaurant = Restaurant.objects.get(restaurant_id=item_rest.restaurant)
+
+            print(order.order_id)
             order_detail = OrderDetail()
             order_detail.food_item_id = it.food_item_id
             order_detail.order_id = order.order_id
@@ -306,61 +322,22 @@ def checkout(request):
             order_detail.save()
             item.append(it.name)
             item.append(y)
-            totalprice += item_rest.cost*y
-            item.append(item_rest.cost*y)
+            totalprice += item_rest.cost * y
+            item.append(item_rest.cost * y)
             items.append(item)
         order.tax = 0.05 * totalprice
-        order.instructions = request.POST['instruct']
-        order.user = request.user
-        order.datetime = datetime.now()
-        order.offer = Offer.objects.get(offer_id='1')
         order.save()
 
         context = {
             "items": items,
             "totalprice": totalprice,
             "order": order,
-            "oid":order.order_id
+            "oid": order.order_id
 
         }
         return render(request, 'webapp/order.html', context)
 
 
-
-
-
-
-
-
-
-        # oid.orderedBy = uid[0]
-        # for x, y in cart.items():
-        #     item = []
-        #     it = Menu.objects.filter(id=int(x))
-        #     if len(it):
-        #         oiid = orderItem()
-        #         oiid.item_id = it[0]
-        #         oiid.quantity = int(y)
-        #         oid.r_id = it[0].r_id
-        #         oid.save()
-        #         oiid.ord_id = oid
-        #         oiid.save()
-        #         totalprice += int(y) * it[0].price
-        #         item.append(it[0].item_id.fname)
-        #         it[0].quantity = it[0].quantity - y
-        #         it[0].save()
-        #         item.append(y)
-        #         item.append(it[0].price * int(y))
-        #
-        #     items.append(item)
-        # oid.total_amount = totalprice
-        # oid.save()
-        # context = {
-        #     "items": items,
-        #     "totalprice": totalprice,
-        #     "oid": oid.id
-        # }
-        # return render(request, 'webapp/order.html', context)
 # #
 # #
 # # ####### ------------------- Restaurant Side ------------------- #####
@@ -576,7 +553,7 @@ def orderlist(request):
             elif select == 5:
                 x = Order.ORDER_STATE_CANCELLED
             else:
-                x=1
+                x = 1
             order.status = x
             print("ml")
             order.save()
