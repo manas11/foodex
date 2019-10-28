@@ -116,7 +116,7 @@ class Order(models.Model):
     payment_mode_online = models.BooleanField(default=True)
     tax = models.IntegerField(blank=False)
     rating = models.IntegerField(default=1, validators=[MaxValueValidator(5), MinValueValidator(1)])
-    review = models.TextField(max_length=250)
+    review = models.TextField(max_length=250, default='')
     ORDER_STATE_WAITING = "Waiting"
     ORDER_STATE_PLACED = "Placed"
     ORDER_STATE_ACKNOWLEDGED = "Acknowledged"

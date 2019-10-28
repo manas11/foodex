@@ -207,9 +207,10 @@ def restaurantProfile(request, pk=None):
     return render(request, 'webapp/rest_profile.html', Context)
 
 
-# def orderplaced(request):
+def orderplaced(request):
+    return render(request, 'webapp/orderplaced.html', {})
 
-# #     return render(request, 'webapp/orderplaced.html', {})
+
 # #
 # #
 # # # Showing Restaurants list to Customer
@@ -282,13 +283,17 @@ def restuarantMenu(request, pk=None):
 @login_required(login_url='/login/user/')
 def checkout(request):
     if request.POST:
+        ptype = request.POST['submit']
         ordid = request.POST['oid']
         order = Order.objects.get(order_id=ordid)
         order.status = Order.ORDER_STATE_PLACED
         order.payment_hash_id = 1
         order.instructions = request.POST['instruct']
         order.save()
-        return redirect('/orderplaced/')
+        if ptype == "Pay Later":
+            return render(request, 'webapp/orderplaced.html', {})
+        else:
+            return render(request, 'webapp/online_pay.html', {})
     else:
         cart = request.COOKIES['cart'].split(",")
         cart = dict(Counter(cart))
@@ -326,17 +331,26 @@ def checkout(request):
             totalprice += item_rest.cost * y
             item.append(item_rest.cost * y)
             items.append(item)
-        order.tax = 0.05 * totalprice
+        order.tax = int(0.05 * totalprice)
+        withouttax = totalprice
+        totalprice += order.tax
         order.save()
 
         context = {
             "items": items,
             "totalprice": totalprice,
+            "withouttax": withouttax,
             "order": order,
             "oid": order.order_id
 
         }
         return render(request, 'webapp/order.html', context)
+
+
+def pay(request):
+    if request.POST:
+        # return redirect('/orderplaced/')
+        return render(request, 'webapp/orderplaced.html', {})
 
 
 # #
@@ -585,7 +599,7 @@ def orderlist(request):
             item_name = FoodItem.objects.get(food_item_id=item.food_item_id)
             citem.append(item_name.name)
             citem.append(item.quantity)
-            fooditem = FoodRestaurant.objects.get(food_item_id=item.id)
+            fooditem = FoodRestaurant.objects.get(food_item_id=item.food_item_id)
             print("ok")
             print(fooditem.cost)
             without_tax += fooditem.cost * item.quantity
@@ -623,3 +637,67 @@ def orderlist(request):
     }
 
     return render(request, "webapp/order-list.html", context)
+
+
+def myorders(request):
+    if request.POST:
+        oid = request.POST['orderid']
+        review = request.POST.get('review', '')
+        print(review)
+        print('review')
+        rate = request.POST.get('rating', 4)
+
+        try:
+            order = Order.objects.get(order_id=oid)
+        except Order.DoesNotExist:
+            order = None
+        print('order')
+        if order is not None:
+            order.review = review
+            order.rating = int(rate)
+        order.save()
+
+    customer = Customer.objects.get(user_id=request.user.id)
+    orders = Order.objects.filter(user_id=customer.id).order_by('-datetime')
+    corders = []
+    for order in orders:
+
+        corder = []
+        rest = Restaurant.objects.get(restaurant_id=order.restaurant_id)
+
+        corder.append(rest.name)
+        corder.append(customer.phone)
+        items_list = OrderDetail.objects.filter(order_id=order.order_id)
+
+
+        items = []
+        without_tax = 0
+        for item in items_list:
+            citem = []
+            item_name = FoodItem.objects.get(food_item_id=item.food_item_id)
+            citem.append(item_name.name)
+            citem.append(item.quantity)
+            fooditem = FoodRestaurant.objects.get(food_item_id=item.food_item_id)
+
+            without_tax += fooditem.cost * item.quantity
+            citem.append(fooditem.cost * item.quantity)
+            items.append(citem)
+
+        corder.append(items)
+        corder.append(without_tax + order.tax)
+        corder.append(without_tax)
+        corder.append(order.tax)
+        corder.append(order.instructions)
+        corder.append(order.order_id)
+        corder.append(order.rating)
+        corder.append(order.review)
+
+        x = order.status
+
+        corder.append(x)
+        corders.append(corder)
+
+    context = {
+        "orders": corders,
+    }
+    return render(request, "webapp/my_order.html", context)
