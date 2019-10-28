@@ -1,8 +1,11 @@
 from django.urls import path
+from django.conf.urls import url
 from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('restaurant/index', views.rest_index, name='rest_index'),
+
     path('register/customer/', views.customer_register, name='customer_register'),
     path('register/customer/profile', views.customer_profile_register, name='customer_profile_register'),
     path('login/customer/', views.customer_login, name='customer_login'),
@@ -18,6 +21,9 @@ urlpatterns = [
     # path('restaurant/',views.restuarent,name='restuarant'),
     path('restaurant/profile', views.restaurantProfile, name='rest_profile'),
     path('restaurant/menu/', views.menu_manipulation, name='menu'),
+    # url(r'ajax/favourite_ajax/$', views.favorite_ajax, name='favorite_ajax'),
+    # url: "/home/favoriteAjax/",
+    # url(r'ajax/entity_name/$', EntityAjaxView.as_view(), name='entity_name'),
 
     # path('profile/user/',views.customerProfile,name='profile'),
     # path('user/create/',views.createCustomer,name='ccreate'),

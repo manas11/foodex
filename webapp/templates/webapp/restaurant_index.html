@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{% static "css/magnific-popup.css" %}">
 
     <link rel="stylesheet" href="{% static "css/aos.css" %}">
+    <link rel="stylesheet" href="{% static "css/jj.css" %}">
 
     <link rel="stylesheet" href="{% static "css/ionicons.min.css" %}">
 
@@ -103,533 +104,308 @@
 <div class="product-sec1">
 
     {% if request.user.is_authenticated %}
-            <h3 class="heading-tittle">Restaurants in {{ location }}</h3>
+        <h3 class="heading-tittle">Restaurants in {{ location }}</h3>
 
-      {% for x in r_object %}
+        {% for x in r_object %}
             <div class="col-md-4 product-men">
-        <div class="men-pro-item simpleCart_shelfItem">
-            <div class="men-thumb-item">
-                <img src="{{x.r_logo.url}}" alt="" height="250 " width="290">
-                <div class="men-cart-pro">
-                    <div class="inner-men-cart-pro">
-                        <a href="{% url 'menu' x.restaurant_id %}" class="link-product-add-cart">Order</a>
+            <div class="men-pro-item simpleCart_shelfItem">
+                <div class="men-thumb-item">
+                    <img src="{{ x.r_logo.url }}" alt="" height="250 " width="290"
+                         style="border-radius: 8px; border: 1px solid #ddd;">
+                    <div class="men-cart-pro">
+                        <div class="inner-men-cart-pro">
+                            <a href="{% url 'menu' x.restaurant_id %}" class="link-product-add-cart">Order</a>
+                        </div>
                     </div>
+                    {% if x.is_exclusive == True %}
+                        <span class="product-new-top">Exclusive</span>
+                    {% endif %}
                 </div>
-            {% if x.is_exclusive == True %}
-                <span class="product-new-top">Exclusive</span>
-            {% endif %}
+                <div class="item-info-product ">
+                    <h4>
+                        <a href={% url 'menu' x.restaurant_id %}>{{ x.name }}</a>
+
+                        {#                    <a href={% url 'index' %}>{{x.name }}</a>#}
+                    </h4>
+
+                    <h4>
+                        <a href={% url 'menu' x.restaurant_id %}>Avg Cost : &#x20b9; {{ x.avg_cost }}</a>
+                    </h4>
+                    {# <td><a href="{% url 'ajax_is_favorite' x.restaurant_id  %}"  class="btn btn-default btn-sm btn-favorite" role="button"><span class=" glyphicon glyphicon-star {% if x.is_favorite %}active{% endif %}" action=""></span></a></td>#}
+
+
+                    <h4>
+                        <a href={% url 'menu' x.restaurant_id %}>Avg Time : {{ x.avg_time }} mins</a>
+                    </h4>
+                </div>
+                {#                <div class="info-product-price">#}
+
+
             </div>
-            <div class="item-info-product ">
-                <h4>
-                    <a href={% url 'menu' x.restaurant_id %}>{{x.name }}</a>
-{#                    <a href={% url 'index' %}>{{x.name }}</a>#}
-                </h4>
-
-                <h4>
-                    <a href={% url 'menu' x.restaurant_id %}>Avg Cost : &#x20b9; {{x.avg_cost }}</a>
-                </h4>
-
-                <h4>
-                    <a href={% url 'menu' x.restaurant_id %}>Avg Time : {{x.avg_time }} mins</a>
-                </h4>
-            </div>
-{#                <div class="info-product-price">#}
-{#                    <span class="item_price </div><div class="item-info-product ">">$11.99</span>#}
-{#                    <del>$15.00</del>#}
-{#                </div>#}
-{#                <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">#}
-{#                    <form action="#" method="post">#}
-{#                        <fieldset>#}
-{#                            <input type="hidden" name="cmd" value="_cart"/>#}
-{#                            <input type="hidden" name="add" value="1"/>#}
-{#                            <input type="hidden" name="business" value=" "/>#}
-{#                            <input type="hidden" name="item_name" value="Chinese Noodles, 68g"/>#}
-{#                            <input type="hidden" name="amount" value="11.99"/>#}
-{#                            <input type="hidden" name="discount_amount" value="1.00"/>#}
-{#                            <input type="hidden" name="currency_code" value="USD"/>#}
-{#                            <input type="hidden" name="return" value=" "/>#}
-{#                            <input type="hidden" name="cancel_return" value=" "/>#}
-{#                            <input type="submit" name="submit" value="Add to cart" class="button"/>#}
-{#                        </fieldset>#}
-{#                    </form>#}
-{#                </div>#}
-
-
+            {#{% temp = False %}#}
+{#            {% with t=0 %}#}
+{#                {% for y in fav %}#}
+{#                    {% if y.restaurant_id == x.restaurant_id %}#}
+{#                        {%  %}#}
+                        {#                                                    <input value="Fav" class="btn-danger">#}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+{#                {% if t == 0 %}#}
+{#                    <div style="display: none;">#}
+{#                {% else %}#}
+{#                    <div>#}
+{#                {% endif %}#}
+{##}
+            {#            	<span href="" class="favme dashicons dashicons-heart"></span>#}
+            {#<div id="gh"></div>#}
+{#            <form action="" method="POST">{% csrf_token %}#}
+{#                <input type="hidden" value="{{ x.restaurant_id }}" name="rest_id">#}
+{#                <input type="hidden" value="{{ user_id }}" name="user_id">#}
+{#                <input type="submit" value="Fav" name="submit" class="btn-danger">#}
+{#            </form>#}
+{#            </div>#}
+{#            {% endwith %}#}
+        {#            #}
+        {#             <form id="form_id" method='post'>{% csrf_token %}#}
+        {#                                                    <input type="hidden" value="{{ x.restaurant_id }}" name="rest">#}
+        {#     <button type="submit">Favourite</button>#}
+        {# </form>#}
         </div>
-            </div>
-      {% endfor %}
+        {% endfor %}
     {% else %}
         {#else display dropdown select tag and then select the location and restaurants of that location #}
-                        <h3 class="heading-tittle">Sorry, we are unable to show restaurants. Please Login to view restaurants in your area :)</h3>
+        <h3 class="heading-tittle">Sorry, we are unable to show restaurants. Please Login to view restaurants in your
+            area :)</h3>
 
     {% endif %}
 
-    {#            {% for rest in r_object %}#}
-    {#                <div class="col-xs-7 col-md-6">#}
-    {#                    <div class="thumbnail">#}
-    {#                        <div class="media mb-2 ml-8"#}
-    {#                             style="border-radius: 10px; border-style: groove; border-width: 2px;">#}
-    {#                            <a href="{% url 'index' rest.id %}" class="pull-left ">#}
-    {#                                <img src="{{ rest.r_logo.url }}" class="img-thumbnail img-responsive "#}
-    {#                                     style="height: 130px; width: 130px;">#}
-    {#                            </a>#}
-    {#                            <div class="media-body pl-4">#}
-    {#                                <a href="{% url 'menu' rest.id %}" style="text-decoration: none !important;"><h1#}
-    {#                                        class="media-heading text-info mt-1" style="height: 20px;">#}
-    {#                                    <strong>{{ rest.rname }}</strong></h1></a>#}
-    {#                                <h6 class="text-secondary"><font size="2"><strong>{{ rest.info }}</strong></font></h6>#}
-    {#                                <h4><font size="2">Min: &#x20b9; {{ rest.min_ord }}</font></h4>#}
-    {#                                <h5><font size="3">Status: <strong#}
-    {#                                        class="text-success">{{ rest.status }}</strong></font></h5>#}
-    {##}
-    {#                            </div>#}
-    {##}
-    {#                        </div>#}
-    {##}
-    {#                    </div>#}
-    {#                </div>#}
-    {##}
-    {#            {% endfor %}#}
-
-
-    {#        {% else %}#}
-    {##}
-    {#        {% endif %}#}
-    {#        <div class="col-sm-4 col-sm-offset-3">#}
-    {#            <form class="form-horizontal" role="search" method="get" action=''>#}
-    {#                <div class="form-group ">#}
-    {#                    <div class="input-group">#}
-    {#                        <input type="text" class="form-control input-lg " name="q" value="{{ request.GET.q }}"#}
-    {#                               placeholder="Search Restaurant " style="height: 40px; width: 50%; font-size: 20px;"/>#}
-    {#                        <span class='input-group-btn'>#}
-    {#             <button class='btn btn-info btn-lg' style="height:40px; font-size: 20px;" type='submit'>Search#}
-    {#             </button>#}
-    {#         </span>#}
-    {#                    </div>#}
-    {#                </div>#}
-    {#            </form>#}
-    {##}
-    {#        </div>#}
-    {##}
     {#    </div>#}
-    {#    <br>#}
-    {#    <br>#}
-    {#    <div class="container">#}
-    {#        <div class="row">#}
-    {#            {% for rest in r_object %}#}
-    {#                <div class="col-xs-7 col-md-6">#}
-    {#                    <div class="thumbnail">#}
-    {#                        <div class="media mb-2 ml-8"#}
-    {#                             style="border-radius: 10px; border-style: groove; border-width: 2px;">#}
-    {#                            <a href="{% url 'index' %}" class="pull-left ">#}
-    {#                                <img src="{{ rest.r_logo.url }}" class="img-thumbnail img-responsive "#}
-    {#                                     style="height: 130px; width: 130px;">#}
-    {#                            </a>#}
-    {#                            <div class="media-body pl-4">#}
-    {#                                <a href="{% url 'menu' rest.id %}" style="text-decoration: none !important;"><h1#}
-    {#                                        class="media-heading text-info mt-1" style="height: 20px;">#}
-    {#                                    <strong>{{ rest.rname }}</strong></h1></a>#}
-    {#                                <h6 class="text-secondary"><font size="2"><strong>{{ rest.info }}</strong></font></h6>#}
-    {#                                <h4><font size="2">Min: &#x20b9; {{ rest.min_ord }}</font></h4>#}
-    {#                                <h5><font size="3">Status: <strong#}
-    {#                                        class="text-success">{{ rest.status }}</strong></font></h5>#}
-    {##}
-    {#                            </div>#}
-    {##}
-    {#                        </div>#}
-    {##}
-    {#                    </div>#}
-    {#                </div>#}
-    {##}
-    {#            {% endfor %}#}
-    {#        </div>#}
-    {#    </div>#}
-{##}
-{#    <div class="col-md-4 product-men">#}
-{#        <div class="men-pro-item simpleCart_shelfItem">#}
-{#            <div class="men-thumb-item">#}
-{#                <img src="{{ user.restaurant.r_logo.url }}" alt="">#}
-{#                <div class="men-cart-pro">#}
-{#                    <div class="inner-men-cart-pro">#}
-{#                        <a href="single.html" class="link-product-add-cart">Quick View</a>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="item-info-product ">#}
-{#                <h4>#}
-{#                    <a href="single.html">Yippee Noodles, 65g</a>#}
-{#                </h4>#}
-{#                <div class="info-product-price">#}
-{#                    <span class="item_price">$15.00</span>#}
-{#                    <del>$25.00</del>#}
-{#                </div>#}
-{#                <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">#}
-{#                    <form action="#" method="post">#}
-{#                        <fieldset>#}
-{#                            <input type="hidden" name="cmd" value="_cart"/>#}
-{#                            <input type="hidden" name="add" value="1"/>#}
-{#                            <input type="hidden" name="business" value=" "/>#}
-{#                            <input type="hidden" name="item_name" value="YiPPee Noodles, 65g"/>#}
-{#                            <input type="hidden" name="amount" value="15.00"/>#}
-{#                            <input type="hidden" name="discount_amount" value="1.00"/>#}
-{#                            <input type="hidden" name="currency_code" value="USD"/>#}
-{#                            <input type="hidden" name="return" value=" "/>#}
-{#                            <input type="hidden" name="cancel_return" value=" "/>#}
-{#                            <input type="submit" name="submit" value="Add to cart" class="button"/>#}
-{#                        </fieldset>#}
-{#                    </form>#}
-{#                </div>#}
-{##}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#    <div class="col-md-4 product-men">#}
-{#        <div class="men-pro-item simpleCart_shelfItem">#}
-{#            <div class="men-thumb-item">#}
-{#                <img src="images/mk8.jpg" alt="">#}
-{#                <div class="men-cart-pro">#}
-{#                    <div class="inner-men-cart-pro">#}
-{#                        <a href="single.html" class="link-product-add-cart">Quick View</a>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <span class="product-new-top">New</span>#}
-{##}
-{#            </div>#}
-{#            <div class="item-info-product ">#}
-{#                <h4>#}
-{#                    <a href="single.html">Wheat Pasta, 500g</a>#}
-{#                </h4>#}
-{#                <div class="info-product-price">#}
-{#                    <span class="item_price">$98.00</span>#}
-{#                    <del>$120.00</del>#}
-{#                </div>#}
-{#                <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">#}
-{#                    <form action="#" method="post">#}
-{#                        <fieldset>#}
-{#                            <input type="hidden" name="cmd" value="_cart"/>#}
-{#                            <input type="hidden" name="add" value="1"/>#}
-{#                            <input type="hidden" name="business" value=" "/>#}
-{#                            <input type="hidden" name="item_name" value="Wheat Pasta, 500g"/>#}
-{#                            <input type="hidden" name="amount" value="98.00"/>#}
-{#                            <input type="hidden" name="discount_amount" value="1.00"/>#}
-{#                            <input type="hidden" name="currency_code" value="USD"/>#}
-{#                            <input type="hidden" name="return" value=" "/>#}
-{#                            <input type="hidden" name="cancel_return" value=" "/>#}
-{#                            <input type="submit" name="submit" value="Add to cart" class="button"/>#}
-{#                        </fieldset>#}
-{#                    </form>#}
-{#                </div>#}
-{##}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#    <div class="col-md-4 product-men">#}
-{#        <div class="men-pro-item simpleCart_shelfItem">#}
-{#            <div class="men-thumb-item">#}
-{#                <img src="images/mk9.jpg" alt="">#}
-{#                <div class="men-cart-pro">#}
-{#                    <div class="inner-men-cart-pro">#}
-{#                        <a href="single.html" class="link-product-add-cart">Quick View</a>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <span class="product-new-top">New</span>#}
-{##}
-{#            </div>#}
-{#            <div class="item-info-product ">#}
-{#                <h4>#}
-{#                    <a href="single.html">Chinese Noodles, 68g</a>#}
-{#                </h4>#}
-{#                <div class="info-product-price">#}
-{#                    <span class="item_price">$11.99</span>#}
-{#                    <del>$15.00</del>#}
-{#                </div>#}
-{#                <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">#}
-{#                    <form action="#" method="post">#}
-{#                        <fieldset>#}
-{#                            <input type="hidden" name="cmd" value="_cart"/>#}
-{#                            <input type="hidden" name="add" value="1"/>#}
-{#                            <input type="hidden" name="business" value=" "/>#}
-{#                            <input type="hidden" name="item_name" value="Chinese Noodles, 68g"/>#}
-{#                            <input type="hidden" name="amount" value="11.99"/>#}
-{#                            <input type="hidden" name="discount_amount" value="1.00"/>#}
-{#                            <input type="hidden" name="currency_code" value="USD"/>#}
-{#                            <input type="hidden" name="return" value=" "/>#}
-{#                            <input type="hidden" name="cancel_return" value=" "/>#}
-{#                            <input type="submit" name="submit" value="Add to cart" class="button"/>#}
-{#                        </fieldset>#}
-{#                    </form>#}
-{#                </div>#}
-{##}
-{#            </div>#}
-{##}
-{#        </div>#}
-{##}
-{#    </div>#}
-{#    <div class="col-md-4 product-men">#}
-{#        <div class="men-pro-item simpleCart_shelfItem">#}
-{#            <div class="men-thumb-item">#}
-{#                <img src="images/mk9.jpg" alt="">#}
-{#                <div class="men-cart-pro">#}
-{#                    <div class="inner-men-cart-pro">#}
-{#                        <a href="single.html" class="link-product-add-cart">Quick View</a>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <span class="product-new-top">New</span>#}
-{##}
-{#            </div>#}
-{#            <div class="item-info-product ">#}
-{#                <h4>#}
-{#                    <a href="single.html">Chinese Noodles, 68g</a>#}
-{#                </h4>#}
-{#                <div class="info-product-price">#}
-{#                    <span class="item_price">$11.99</span>#}
-{#                    <del>$15.00</del>#}
-{#                </div>#}
-{#                <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">#}
-{#                    <form action="#" method="post">#}
-{#                        <fieldset>#}
-{#                            <input type="hidden" name="cmd" value="_cart"/>#}
-{#                            <input type="hidden" name="add" value="1"/>#}
-{#                            <input type="hidden" name="business" value=" "/>#}
-{#                            <input type="hidden" name="item_name" value="Chinese Noodles, 68g"/>#}
-{#                            <input type="hidden" name="amount" value="11.99"/>#}
-{#                            <input type="hidden" name="discount_amount" value="1.00"/>#}
-{#                            <input type="hidden" name="currency_code" value="USD"/>#}
-{#                            <input type="hidden" name="return" value=" "/>#}
-{#                            <input type="hidden" name="cancel_return" value=" "/>#}
-{#                            <input type="submit" name="submit" value="Add to cart" class="button"/>#}
-{#                        </fieldset>#}
-{#                    </form>#}
-{#                </div>#}
-{##}
-{#            </div>#}
-{##}
-{#        </div>#}
-{##}
-{#    </div>#}
-{#    <div class="col-md-4 product-men">#}
-{#        <div class="men-pro-item simpleCart_shelfItem">#}
-{#            <div class="men-thumb-item">#}
-{#                <img src="images/mk9.jpg" alt="">#}
-{#                <div class="men-cart-pro">#}
-{#                    <div class="inner-men-cart-pro">#}
-{#                        <a href="single.html" class="link-product-add-cart">Quick View</a>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <span class="product-new-top">New</span>#}
-{##}
-{#            </div>#}
-{#            <div class="item-info-product ">#}
-{#                <h4>#}
-{#                    <a href="single.html">Chinese Noodles, 68g</a>#}
-{#                </h4>#}
-{#                <div class="info-product-price">#}
-{#                    <span class="item_price">$11.99</span>#}
-{#                    <del>$15.00</del>#}
-{#                </div>#}
-{#                <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">#}
-{#                    <form action="#" method="post">#}
-{#                        <fieldset>#}
-{#                            <input type="hidden" name="cmd" value="_cart"/>#}
-{#                            <input type="hidden" name="add" value="1"/>#}
-{#                            <input type="hidden" name="business" value=" "/>#}
-{#                            <input type="hidden" name="item_name" value="Chinese Noodles, 68g"/>#}
-{#                            <input type="hidden" name="amount" value="11.99"/>#}
-{#                            <input type="hidden" name="discount_amount" value="1.00"/>#}
-{#                            <input type="hidden" name="currency_code" value="USD"/>#}
-{#                            <input type="hidden" name="return" value=" "/>#}
-{#                            <input type="hidden" name="cancel_return" value=" "/>#}
-{#                            <input type="submit" name="submit" value="Add to cart" class="button"/>#}
-{#                        </fieldset>#}
-{#                    </form>#}
-{#                </div>#}
-{##}
-{#            </div>#}
-{##}
-{#        </div>#}
-{##}
-{#    </div>#}
     <div class="clearfix"></div>
-</div>
+    </div>
 
-<script src="{% static "js/jquery.min.js" %}"></script>
-<script src="{% static "js/jquery-migrate-3.0.1.min.js" %}"></script>
-<script src="{% static "js/popper.min.js" %}"></script>
-<script src="{% static "js/bootstrap.min.js" %}"></script>
-<script src="{% static "js/jquery.easing.1.3.js" %}"></script>
-<script src="{% static "js/jquery.waypoints.min.js" %}"></script>
-<script src="{% static "js/jquery.stellar.min.js" %}"></script>
-<script src="{% static "js/owl.carousel.min.js" %}"></script>
-<script src="{% static "js/jquery.magnific-popup.min.js" %}"></script>
-<script src="{% static "js/aos.js" %}"></script>
-<script src="{% static "js/jquery.animateNumber.min.js" %}"></script>
-<script src="{% static "js/bootstrap-datepicker.js" %}"></script>
-<script src="{% static "js/jquery.timepicker.min.js" %}"></script>
-<script src="{% static "js/scrollax.min.js" %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-<script src="{% static "js/google-map.js" %}"></script>
-<script src="{% static "js/main.js" %}"></script>
-<script src="{% static "rjs/bootstrap.js" %}"></script>
+    <script src="{% static "js/jquery.min.js" %}"></script>
+    <script src="{% static "js/jquery-migrate-3.0.1.min.js" %}"></script>
+    <script src="{% static "js/popper.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/jquery.easing.1.3.js" %}"></script>
+    <script src="{% static "js/jquery.waypoints.min.js" %}"></script>
+    <script src="{% static "js/jquery.stellar.min.js" %}"></script>
+    <script src="{% static "js/owl.carousel.min.js" %}"></script>
+    <script src="{% static "js/jquery.magnific-popup.min.js" %}"></script>
+    <script src="{% static "js/aos.js" %}"></script>
+    <script src="{% static "js/jquery.animateNumber.min.js" %}"></script>
+    <script src="{% static "js/bootstrap-datepicker.js" %}"></script>
+    <script src="{% static "js/jquery.timepicker.min.js" %}"></script>
+    <script src="{% static "js/scrollax.min.js" %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+    <script src="{% static "js/google-map.js" %}"></script>
+    <script src="{% static "js/main.js" %}"></script>
+    <script src="{% static "rjs/bootstrap.js" %}"></script>
 
 
-<script src="{% static "rjs/jquery-2.1.4.min.js" %}"></script>
-<!-- //jquery -->
+    <script src="{% static "rjs/jquery-2.1.4.min.js" %}"></script>
+    <!-- //jquery -->
 
-<!-- popup modal (for signin & signup)-->
-<script src="{% static "rjs/jquery.magnific-popup.js" %}"></script>
-<script>
-    $(document).ready(function () {
-        $('.popup-with-zoom-anim').magnificPopup({
-            type: 'inline',
-            fixedContentPos: false,
-            fixedBgPos: true,
-            overflowY: 'auto',
-            closeBtnInside: true,
-            preloader: false,
-            midClick: true,
-            removalDelay: 300,
-            mainClass: 'my-mfp-zoom-in'
+    <!-- popup modal (for signin & signup)-->
+    <script src="{% static "rjs/jquery.magnific-popup.js" %}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.popup-with-zoom-anim').magnificPopup({
+                type: 'inline',
+                fixedContentPos: false,
+                fixedBgPos: true,
+                overflowY: 'auto',
+                closeBtnInside: true,
+                preloader: false,
+                midClick: true,
+                removalDelay: 300,
+                mainClass: 'my-mfp-zoom-in'
+            });
+
         });
+    </script>
+    <!-- Large modal -->
+    <!-- <script>
+        $('#').modal('show');
+    </script> -->
+    <!-- //popup modal (for signin & signup)-->
 
-    });
-</script>
-<!-- Large modal -->
-<!-- <script>
-    $('#').modal('show');
-</script> -->
-<!-- //popup modal (for signin & signup)-->
+    <!-- cart-js -->
+    <script src="{% static "rjs/minicart.js" %}"></script>
+    <script>
+        paypalm.minicartk.render(); //use only unique class names other than paypalm.minicartk.Also Replace same class name in css and minicart.min.js
 
-<!-- cart-js -->
-<script src="{% static "rjs/minicart.js" %}"></script>
-<script>
-    paypalm.minicartk.render(); //use only unique class names other than paypalm.minicartk.Also Replace same class name in css and minicart.min.js
+        paypalm.minicartk.cart.on('checkout', function (evt) {
+            var items = this.items(),
+                len = items.length,
+                total = 0,
+                i;
 
-    paypalm.minicartk.cart.on('checkout', function (evt) {
-        var items = this.items(),
-            len = items.length,
-            total = 0,
-            i;
+            // Count the number of each item in the cart
+            for (i = 0; i < len; i++) {
+                total += items[i].get('quantity');
+            }
 
-        // Count the number of each item in the cart
-        for (i = 0; i < len; i++) {
-            total += items[i].get('quantity');
-        }
-
-        if (total < 3) {
-            alert('The minimum order quantity is 3. Please add more to your shopping cart before checking out');
-            evt.preventDefault();
-        }
-    });
-</script>
-<!-- //cart-js -->
-
-<!-- price range (top products) -->
-<script src="{% static "rjs/jquery-ui.js" %}"></script>
-<script>
-    //<![CDATA[
-    $(window).load(function () {
-        $("#slider-range").slider({
-            range: true,
-            min: 0,
-            max: 9000,
-            values: [50, 6000],
-            slide: function (event, ui) {
-                $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+            if (total < 3) {
+                alert('The minimum order quantity is 3. Please add more to your shopping cart before checking out');
+                evt.preventDefault();
             }
         });
-        $("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
+    </script>
+    <!-- //cart-js -->
 
-    }); //]]>
-</script>
-<!-- //price range (top products) -->
-
-<!-- flexisel (for special offers) -->
-<script src="{% static "rjs/jquery.flexisel.js" %}"></script>
-<script>
-    $(window).load(function () {
-        $("#flexiselDemo1").flexisel({
-            visibleItems: 3,
-            animationSpeed: 1000,
-            autoPlay: true,
-            autoPlaySpeed: 3000,
-            pauseOnHover: true,
-            enableResponsiveBreakpoints: true,
-            responsiveBreakpoints: {
-                portrait: {
-                    changePoint: 480,
-                    visibleItems: 1
-                },
-                landscape: {
-                    changePoint: 640,
-                    visibleItems: 2
-                },
-                tablet: {
-                    changePoint: 768,
-                    visibleItems: 2
+    <!-- price range (top products) -->
+    <script src="{% static "rjs/jquery-ui.js" %}"></script>
+    <script>
+        //<![CDATA[
+        $(window).load(function () {
+            $("#slider-range").slider({
+                range: true,
+                min: 0,
+                max: 9000,
+                values: [50, 6000],
+                slide: function (event, ui) {
+                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
                 }
-            }
+            });
+            $("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
+
+        }); //]]>
+    </script>
+    <!-- //price range (top products) -->
+
+    <!-- flexisel (for special offers) -->
+    <script src="{% static "rjs/jquery.flexisel.js" %}"></script>
+    <script>
+        $(window).load(function () {
+            $("#flexiselDemo1").flexisel({
+                visibleItems: 3,
+                animationSpeed: 1000,
+                autoPlay: true,
+                autoPlaySpeed: 3000,
+                pauseOnHover: true,
+                enableResponsiveBreakpoints: true,
+                responsiveBreakpoints: {
+                    portrait: {
+                        changePoint: 480,
+                        visibleItems: 1
+                    },
+                    landscape: {
+                        changePoint: 640,
+                        visibleItems: 2
+                    },
+                    tablet: {
+                        changePoint: 768,
+                        visibleItems: 2
+                    }
+                }
+            });
+
         });
+    </script>
+    <!-- //flexisel (for special offers) -->
 
-    });
-</script>
-<!-- //flexisel (for special offers) -->
+    <!-- password-script -->
+    <script>
+        window.onload = function () {
+            document.getElementById("password1").onchange = validatePassword;
+            document.getElementById("password2").onchange = validatePassword;
+        }
 
-<!-- password-script -->
-<script>
-    window.onload = function () {
-        document.getElementById("password1").onchange = validatePassword;
-        document.getElementById("password2").onchange = validatePassword;
-    }
+        function validatePassword() {
+            var pass2 = document.getElementById("password2").value;
+            var pass1 = document.getElementById("password1").value;
+            if (pass1 != pass2)
+                document.getElementById("password2").setCustomValidity("Passwords Don't Match");
+            else
+                document.getElementById("password2").setCustomValidity('');
+            //empty string means no validation error
+        }
+    </script>
+    <!-- //password-script -->
 
-    function validatePassword() {
-        var pass2 = document.getElementById("password2").value;
-        var pass1 = document.getElementById("password1").value;
-        if (pass1 != pass2)
-            document.getElementById("password2").setCustomValidity("Passwords Don't Match");
-        else
-            document.getElementById("password2").setCustomValidity('');
-        //empty string means no validation error
-    }
-</script>
-<!-- //password-script -->
+    <!-- smoothscroll -->
+    <script src="{% static "rjs/SmoothScroll.min.js" %}"></script>
+    <!-- //smoothscroll -->
 
-<!-- smoothscroll -->
-<script src="{% static "rjs/SmoothScroll.min.js" %}"></script>
-<!-- //smoothscroll -->
+    <!-- start-smooth-scrolling -->
+    <script src="{% static "rjs/move-top.js" %}"></script>
+    <script src="{% static "rjs/easing.js" %}"></script>
+    <script>
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
 
-<!-- start-smooth-scrolling -->
-<script src="{% static "rjs/move-top.js" %}"></script>
-<script src="{% static "rjs/easing.js" %}"></script>
-<script>
-    jQuery(document).ready(function ($) {
-        $(".scroll").click(function (event) {
-            event.preventDefault();
-
-            $('html,body').animate({
-                scrollTop: $(this.hash).offset().top
-            }, 1000);
+                $('html,body').animate({
+                    scrollTop: $(this.hash).offset().top
+                }, 1000);
+            });
         });
-    });
-</script>
-<!-- //end-smooth-scrolling -->
+    </script>
+    <!-- //end-smooth-scrolling -->
 
-<!-- smooth-scrolling-of-move-up -->
-<script>
-    $(document).ready(function () {
-        /*
-        var defaults = {
-            containerID: 'toTop', // fading element id
-            containerHoverID: 'toTopHover', // fading element hover id
-            scrollSpeed: 1200,
-            easingType: 'linear'
-        };
-        */
-        $().UItoTop({
-            easingType: 'easeOutQuart'
+    <!-- smooth-scrolling-of-move-up -->
+    <script>
+        $(document).ready(function () {
+            /*
+            var defaults = {
+                containerID: 'toTop', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear'
+            };
+            */
+            $().UItoTop({
+                easingType: 'easeOutQuart'
+            });
+
         });
+    </script>
 
-    });
-</script>
+    {#<script>#}
+    {#$.ajax({#}
+    {#    url : "{% url 'ajax_is_favorite'%}",#}
+    {#    data: {#}
+    {#        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),#}
+    {#        'rest_id': 'here you get the id',#}
+    {#        'user_id': ' s'#}
+    {#        'isFavorite': true //or false#}
+    {#    },#}
+    {#    type : 'POST',#}
+    {#    dataType : 'json',#}
+    {#    success : function(json) {#}
+    {#        if(json.success === true){#}
+    {#            // do somthing#}
+    {#        }else{#}
+    {#            // do somthing#}
+    {#        }#}
+    {#    }#}
+    {#});#}
+    {#</script>#}
 
+
+    {#<script>$("#form_id").on('submit', function(event) {#}
+    {#       event.preventDefault();#}
+    {#var rest_id = document.getElementById("form_id").attributes["rest"].value;#}
+    {##}
+    {#'{{ x.restaurant_id }}';#}
+    {#var user_id = '{{ user_id }}';#}
+    {##}
+    {#       $.ajax({#}
+    {#           type: "POST",#}
+    {#url: "/home/favoriteAjax/",#}
+    {#           url: "{% url 'favorite_ajax' %}",#}
+    {#           data:{#}
+    {#  rest_id:rest_id,#}
+    {#user_id:user_id,#}
+    {#                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()#}
+    {#           },#}
+    {#           datatype:'json',#}
+    {#           success: function(data) {#}
+    {#             if (data['success'])#}
+    {#                alert("successfully added to favorites")#}
+    {#           }#}
+    {#       });#}
+    {#  });</script>#}
 </body>
 </html>

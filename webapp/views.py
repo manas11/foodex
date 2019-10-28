@@ -1,12 +1,16 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
 from django.shortcuts import render, redirect, get_object_or_404
 from _datetime import datetime
+from django.http import HttpResponse, HttpResponseNotAllowed
+
 from django.contrib.auth import authenticate, login, logout
 from xdg import Menu
 
 from webapp.models import Location, RestaurantOwner, Restaurant, FoodRestaurant, FoodItem, ItemType, User, Order, \
-    Customer, OrderDetail, Offer
+    Customer, OrderDetail, Offer, Payment, Favourite
 from .forms import CustomerRegisterForm, CustomerRegisterProfileForm, RestaurantRegisterForm, \
     RestaurantRegisterProfileForm, RestaurantDetailForm
 
@@ -142,7 +146,7 @@ def restaurant_login(request):
         print(user)
         if user is not None:
             login(request, user)
-            return redirect('menu')
+            return redirect('rest_index')
         else:
             return render(request, 'webapp/restaurant_login.html', {'error_message': 'Your account disable'})
     else:
@@ -169,21 +173,81 @@ def restaurant_detail(request):
     }
     return render(request, 'webapp/restaurant_detail.html', context)
 
+    # def ajax_is_favorite(request):
+    #     if not request.is_ajax() or not request.method == 'POST':
+    #         return HttpResponseNotAllowed(['POST'])
+    #     else:
+    #         # Here you have to get the data and update the object
+    #         # update favourite table
+    #         fav = Favourite()
+    #         # fav.restaurant_id = request.
+    #         fav.user_id = request.user.id
+    #
+    #         return HttpResponse({"success": True})
+
+
+# def favorite_ajax(request):
+#     data = {'success': False}
+#     print("a1")
+#     if request.method == 'POST':
+#         print("a2")
+#         user_id = request.POST.get('user_id')
+#         rest_id = request.POST.get('rest_id')
+#         fav = Favourite()
+#         fav.restaurant_id = rest_id
+#         fav.user_id = user_id
+#         fav.save()
+#         data['success'] = True
+#     return JsonResponse(data)
+def rest_index(request):
+    return render(request, 'webapp/rest_index.html', {})
+
 
 def restaurant_index(request):
+    if request.POST:
+        rest_id = request.POST['rest_id']
+        user_id = request.POST['user_id']
+        customer = Customer.objects.get(user_id=user_id)
+        # Customer.objects.get(user_id)
+        fav = Favourite()
+        fav.user_id = int(customer.id)
+        fav.restaurant_id = int(rest_id)
+        fav.save()
+    #     try:
+    #         offer = Offer.objects.get(offer_id=offerid)
+    #         ownner = RestaurantOwner.objects.get(user_id=request.user.id)
+    #         rest = Restaurant.objects.get(owner=ownner)
+    #         rest.offer = offer
+    #         rest.save()
+    #     except Offer.DoesNotExist:
+    #         print("i23")
+    #     select = request.POST['orderstatus']
+    #     print("manas")
+    #     print(oid)
+    # select = int(
+
     if request.user.is_authenticated:
         customer = Customer.objects.get(user=request.user)
         r_object = Restaurant.objects.filter(location=customer.location)
+        user_id = customer.user_id
+        temp = 1
         location = customer.location.LocationName
+        fav = Favourite.objects.filter(user_id=customer.id)
     else:
         r_object = None
+        user_id = None
+        temp = 1
         location = None
+        fav = None
         # query = request.GET.get('q')
         # if query:
         #     r_object = Restaurant.objects.filter(Q(location_id__iins=query)).distinct()
     context = {
         'r_object': r_object,
         'location': location,
+        'user_id': user_id,
+        'temp': temp,
+        'fav': fav,
     }
     return render(request, 'webapp/restaurant_index.html', context)
 
@@ -291,8 +355,15 @@ def checkout(request):
         order.instructions = request.POST['instruct']
         order.save()
         if ptype == "Pay Later":
+            order.payment_mode_online = False
+            order.save()
             return render(request, 'webapp/orderplaced.html', {})
         else:
+            payment = Payment()
+            payment.amount = request.POST['total_price']
+            payment.save()
+            order.payment_hash_id = payment.hash
+            order.save()
             return render(request, 'webapp/online_pay.html', {})
     else:
         cart = request.COOKIES['cart'].split(",")
@@ -306,12 +377,16 @@ def checkout(request):
         order.tax = 0.05 * totalprice
         order.user = Customer.objects.get(user_id=request.user.id)
         order.datetime = datetime.now()
-        order.offer = Offer.objects.get(offer_id=1)
+        # order.offer = Offer.objects.get(offer_id=1)
         for x, y in cart.items():
             it = FoodItem.objects.get(food_item_id=int(x))
             print(it.name)
             item_rest = FoodRestaurant.objects.get(food_item_id=it.food_item_id)
             order.restaurant = Restaurant.objects.get(restaurant_id=item_rest.restaurant.restaurant_id)
+            yu = Offer.objects.get(
+                offer_id=Restaurant.objects.get(restaurant_id=item_rest.restaurant.restaurant_id).offer_id)
+            print(yu.discount)
+            order.offer_id = yu.offer_id
         order.payment_hash_id = 1
         order.save()
         for x, y in cart.items():
@@ -334,10 +409,14 @@ def checkout(request):
         order.tax = int(0.05 * totalprice)
         withouttax = totalprice
         totalprice += order.tax
+        totalprice -= int(yu.discount)
+        if totalprice < order.tax:
+            totalprice = order.tax
         order.save()
 
         context = {
             "items": items,
+            "yu": yu,
             "totalprice": totalprice,
             "withouttax": withouttax,
             "order": order,
@@ -491,7 +570,8 @@ def menu_manipulation(request):
                 fooditem.save()
                 print("5")
             print("7")
-            foodrest.restaurant = rest
+
+            foodrest.restaurant_id = rest.restaurant_id
             foodrest.cost = request.POST['cost']
             foodrest.save()
         elif rtype == "Select":
@@ -536,7 +616,7 @@ def menu_manipulation(request):
             cmenu.append("non veg")
         menu.append(cmenu)
     offers = Offer.objects.all()
-    appliedoffer= Offer.objects.get(offer_id=rest.offer_id)
+    appliedoffer = Offer.objects.get(offer_id=rest.offer_id)
     i1 = ItemType.objects.all()
     itemtypes = []
     vegarray = [[0, "non veg"], [1, "veg"]]
@@ -548,7 +628,7 @@ def menu_manipulation(request):
         "itemtypes": itemtypes,
         "vegarray": vegarray,
         "offer": offers,
-        "applied":appliedoffer
+        "applied": appliedoffer
     }
     return render(request, 'webapp/menu_modify.html', context)
 
@@ -683,7 +763,6 @@ def myorders(request):
         corder.append(customer.phone)
         items_list = OrderDetail.objects.filter(order_id=order.order_id)
 
-
         items = []
         without_tax = 0
         for item in items_list:
@@ -698,7 +777,14 @@ def myorders(request):
             items.append(citem)
 
         corder.append(items)
-        corder.append(without_tax + order.tax)
+        yu = Offer.objects.get(
+            offer_id=order.offer_id)
+
+        if (int(without_tax) + int(order.tax) - int(yu.discount)) < int(order.tax):
+            corder.append(int(order.tax))
+        else:
+            corder.append(int(without_tax) + int(order.tax) - int(yu.discount))
+
         corder.append(without_tax)
         corder.append(order.tax)
         corder.append(order.instructions)
