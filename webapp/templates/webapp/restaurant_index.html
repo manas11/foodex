@@ -55,10 +55,16 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="{% url 'index' %}" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="menu.html" class="nav-link"></a></li>
-                <li class="nav-item"><a href="{% url 'restaurant_index' %}" class="nav-link">Restaurants</a></li>
                 {% if request.user.is_authenticated %}
                     <li class="nav-item"><a href="{% url 'logout_view' %}" class="nav-link">Logout</a></li>
-
+                    {% if request.user.is_customer %}
+                        <li class="nav-item"><a href="{% url 'restaurant_index' %}" class="nav-link">Restaurants</a>
+                        </li>
+                    {% endif %}
+                    {% if request.user.is_customer %}
+                        <li class="nav-item"><a href="{% url 'myorders' %}" class="nav-link">My Orders</a>
+                        </li>
+                    {% endif %}
                 {% else %}
                     <div class="dropdown">
                         <button class="dropbtn">Register</button>
@@ -75,7 +81,6 @@
                         </div>
                     </div>
 
-
                 {% endif %}
                 <li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Contact Us</a></li>
 
@@ -83,8 +88,7 @@
         </div>
     </div>
 </nav>
-<!-- fourth section (noodles) -->
-
+<!-- END nav -->
 
 {#<section class="ftco-about d-md-flex">#}
 {#    <div class="one-half img" style="background-image: url({% static "images/about.jpg" %})"></div>#}

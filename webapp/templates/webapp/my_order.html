@@ -51,7 +51,7 @@
                         </li>
                     {% endif %}
                     {% if request.user.is_customer %}
-                        <li class="nav-item"><a href="{% url 'restaurant_index' %}" class="nav-link">My Orders</a>
+                        <li class="nav-item"><a href="{% url 'myorders' %}" class="nav-link">My Orders</a>
                         </li>
                     {% endif %}
                 {% else %}
@@ -116,7 +116,10 @@
         </div>
         <div class="col-md-12 buy">
             <h6>Cart Total: &#x20b9;{{ order.4 }}</h6>
+
             <h6>Tax: &#x20b9;{{ order.5 }}</h6>
+                           <h6>Discount applied :  {{order.11}}</h6>
+
             <h5>Total Amount: &#x20b9;{{ order.3 }}</h5>
 
 

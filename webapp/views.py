@@ -566,8 +566,8 @@ def menu_manipulation(request):
                     print("4")
                     fooditem.is_veg = False
                 fooditem.type_id = int(request.POST['type_id'])
-                foodrest.food_item_id = fooditem.food_item_id
                 fooditem.save()
+                foodrest.food_item_id = fooditem.food_item_id
                 print("5")
             print("7")
 
@@ -670,7 +670,7 @@ def orderlist(request):
     restaurant = Restaurant.objects.get(owner=ownner)
     orders = Order.objects.filter(restaurant=restaurant).order_by('-datetime')
     print("hi")
-    print(orders[0].instructions)
+    # print(orders[0].instructions)
     corders = []
 
     for order in orders:
@@ -701,7 +701,14 @@ def orderlist(request):
             items.append(citem)
 
         corder.append(items)
-        corder.append(without_tax + order.tax)
+        yu = Offer.objects.get(
+            offer_id=order.offer_id)
+
+        if (int(without_tax) + int(order.tax) - int(yu.discount)) < int(order.tax):
+            corder.append(int(order.tax))
+        else:
+            corder.append(int(without_tax) + int(order.tax) - int(yu.discount))
+        # corder.append(without_tax + order.tax)
         corder.append(without_tax)
         corder.append(order.tax)
         corder.append(order.instructions)
@@ -724,6 +731,8 @@ def orderlist(request):
         print('i am here')
 
         corder.append(x)
+        corder.append(order.review)
+        corder.append(yu.discount)
         corders.append(corder)
 
     context = {
@@ -795,6 +804,7 @@ def myorders(request):
         x = order.status
 
         corder.append(x)
+        corder.append(yu.discount)
         corders.append(corder)
 
     context = {
