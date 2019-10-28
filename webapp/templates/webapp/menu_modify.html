@@ -199,7 +199,15 @@
                             <option value="0">non veg</option>
                         </select>
                         </td>
-                        <td><input type="number" name="type_id"/></td>
+
+                        <td><select name="type_id" id="type_id" required>
+                                <option value="{{ x.6 }}">{{ x.5 }}</option>
+                                {% for y in itemtypes %}
+                                    {% if y.0 != x.6 %}
+                                        <option value="{{ y.0 }}">{{ y.1 }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            <td>
                         <td>
                             <input type="submit" name="submit" id="submit" class="btn  btn-primary btn-lg"
                                    value="Add"/>

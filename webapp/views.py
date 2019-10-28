@@ -480,7 +480,7 @@ def menu_manipulation(request):
                 fooditem = FoodItem()
                 fooditem.name = name
                 is_veg = request.POST['is_veg']
-                if is_veg == 1:
+                if int(is_veg) == 1:
                     print("3")
                     fooditem.is_veg = True
                 else:
