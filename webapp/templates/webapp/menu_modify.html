@@ -85,6 +85,38 @@
     {#	<input id="tab3" type="radio" name="tabs">#}
     {#  	<label for="tab3">Delete Items</label>#}
 
+ <section id="content1">
+        <div class="order-top" style="border:0">
+            <p>
+            <h4>Offers Available</h4>
+            <h4>Offers Applied: #{{ applied.offer_id }} Amount: {{ applied.discount }}</h4>
+
+            <table class="table table-hover table-bordered">
+                <thead>
+                <th>Offer Id</th>
+                <th>Discount</th>
+                <th></th>
+                </thead>
+                {% for x in offer %}
+                     <tr>
+                        <td>{{ x.offer_id }}</td>
+                        <td>{{ x.discount }}</td>
+                        <td>
+                            <form action="" method="POST">{% csrf_token %}
+                                <input type="hidden" value="{{ x.offer_id }}" name="offerid">
+                                <input type="submit" value="Select" name="submit" class="btn btn-primary btn-lg">
+
+                            </form>
+                        </td>
+
+                     </tr>
+                {% endfor %}
+            </table>
+            </p>
+        </div>
+    </section>
+
+
     <section id="content1">
         <div class="order-top" style="border:0">
             <p>
@@ -135,6 +167,9 @@
             </p>
         </div>
     </section>
+
+
+
     <section id="content2">
         <div class="order-top" style="border:0">
             <p>
