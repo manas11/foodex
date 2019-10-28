@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from xdg import Menu
 
 from webapp.models import Location, RestaurantOwner, Restaurant, FoodRestaurant, FoodItem, ItemType, User, Order, \
-    Customer, OrderDetail, Offer
+    Customer, OrderDetail, Offer, Payment
 from .forms import CustomerRegisterForm, CustomerRegisterProfileForm, RestaurantRegisterForm, \
     RestaurantRegisterProfileForm, RestaurantDetailForm
 
@@ -291,8 +291,15 @@ def checkout(request):
         order.instructions = request.POST['instruct']
         order.save()
         if ptype == "Pay Later":
+            order.payment_mode_online = False
+            order.save()
             return render(request, 'webapp/orderplaced.html', {})
         else:
+            payment = Payment()
+            payment.amount = request.POST['total_price']
+            payment.save()
+            order.payment_hash_id = payment.hash
+            order.save()
             return render(request, 'webapp/online_pay.html', {})
     else:
         cart = request.COOKIES['cart'].split(",")

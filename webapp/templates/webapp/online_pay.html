@@ -92,13 +92,14 @@
                 <div class="panel-heading display-table">
                     <div class="row display-tr">
                         <h3 class="panel-title display-td">Payment Details</h3>
-                        <div class="display-td">
+                        <div class="display-td"
+>
                             <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
                         </div>
                     </div>
                 </div>
                 <div class="panel-body">
-                    <form role="form" id="payment-form">
+{#                    <form role="form" id="payment-form">#}
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="form-group">
@@ -149,8 +150,8 @@
 
                         <div class="row">
                             <div class="col-xs-12">
-                                <button class="btn btn-success btn-lg btn-block" type="submit">Pay Now
-                                </button>
+                                <a href="{%  url 'myorders' %}"> <button class="btn btn-success btn-lg btn-block" >Pay Now
+                                </button></a>
                             </div>
                         </div>
                         <div class="row" style="display:none;">
@@ -158,7 +159,7 @@
                                 <p class="payment-errors"></p>
                             </div>
                         </div>
-                    </form>
+{#                    </form>#}
                 </div>
             </div>
             <!-- CREDIT CARD FORM ENDS HERE -->
@@ -171,6 +172,6 @@
 </div>
 
 <!-- If you're using Stripe for payments -->
-<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+{#<script type="text/javascript" src="https://js.stripe.com/v2/"></script>#}
 
 </body>
