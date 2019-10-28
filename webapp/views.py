@@ -501,6 +501,17 @@ def menu_manipulation(request):
             foodrest.restaurant = rest
             foodrest.cost = request.POST['cost']
             foodrest.save()
+        elif rtype == "Select":
+            offerid = int(request.POST['offerid'])
+            try:
+                offer = Offer.objects.get(offer_id=offerid)
+                ownner = RestaurantOwner.objects.get(user_id=request.user.id)
+                rest = Restaurant.objects.get(owner=ownner)
+                rest.offer = offer
+                rest.save()
+            except Offer.DoesNotExist:
+                print("i23")
+
         else:
 
             foodid = int(request.POST['fooditemid'])
@@ -531,7 +542,8 @@ def menu_manipulation(request):
         else:
             cmenu.append("non veg")
         menu.append(cmenu)
-
+    offers = Offer.objects.all()
+    appliedoffer= Offer.objects.get(offer_id=rest.offer_id)
     i1 = ItemType.objects.all()
     itemtypes = []
     vegarray = [[0, "non veg"], [1, "veg"]]
@@ -542,6 +554,8 @@ def menu_manipulation(request):
         "user": request.user,
         "itemtypes": itemtypes,
         "vegarray": vegarray,
+        "offer": offers,
+        "applied":appliedoffer
     }
     return render(request, 'webapp/menu_modify.html', context)
 
