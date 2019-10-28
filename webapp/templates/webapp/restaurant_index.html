@@ -97,7 +97,7 @@
                 <img src="{{x.r_logo.url}}" alt="" height="250 " width="290">
                 <div class="men-cart-pro">
                     <div class="inner-men-cart-pro">
-                        <a href="" class="link-product-add-cart">Order</a>
+                        <a href="{% url 'menu' x.restaurant_id %}" class="link-product-add-cart">Order</a>
                     </div>
                 </div>
             {% if x.is_exclusive == True %}

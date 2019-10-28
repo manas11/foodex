@@ -46,7 +46,8 @@
                 {% if request.user.is_authenticated %}
                     <li class="nav-item"><a href="{% url 'logout_view' %}" class="nav-link">Logout</a></li>
                     {% if request.user.is_customer %}
-                                    <li class="nav-item"><a href="{% url 'restaurant_index' %}" class="nav-link">Restaurants</a></li>
+                        <li class="nav-item"><a href="{% url 'restaurant_index' %}" class="nav-link">Restaurants</a>
+                        </li>
                     {% endif %}
                 {% else %}
                     <div class="dropdown">
@@ -102,9 +103,9 @@
                     <span class="subheading">DELICIOUS FOOD</span>
                     <h1 class="mb-4">ALL CUISINES</h1>
                     <p class="mb-4 mb-md-5">We have a large variety of mouth watering Food Items from all cuisines.</p>
-{#                    <p><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order Now</a> <a href="#"#}
-{#                                                                                                class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View#}
-{#                        Menu</a></p>#}
+                    {#                    <p><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order Now</a> <a href="#"#}
+                    {#                                                                                                class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View#}
+                    {#                        Menu</a></p>#}
                 </div>
                 <div class="col-md-6 ftco-animate">
                     <img src="{% static "images/bg_1.png" %}" class="img-fluid" alt="">
@@ -120,15 +121,16 @@
             <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
 
                 <div class="col-md-7 col-sm-12 text-center ftco-animate">
-                       <span class="subheading">WELCOME</span>
-{#                    <h1 class="mb-4">ALL CUISINES</h1>#}
+                    <span class="subheading">WELCOME</span>
+                    {#                    <h1 class="mb-4">ALL CUISINES</h1>#}
 
-{#                    <span class="subheading">Welcome</span>#}
+                    {#                    <span class="subheading">Welcome</span>#}
                     <h1 class="mb-4">Food ordering in few simple steps</h1>
-                    <p class="mb-4 mb-md-5">Foodex is the best online food ordering portal - Ranked #1 by Food Association of India. We focus on customers and their satisfaction.</p>
-{#                    <p><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order Now</a> <a href="#"#}
-{#                                                                                                class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View#}
-{#                        Menu</a></p>#}
+                    <p class="mb-4 mb-md-5">Foodex is the best online food ordering portal - Ranked #1 by Food
+                        Association of India. We focus on customers and their satisfaction.</p>
+                    {#                    <p><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order Now</a> <a href="#"#}
+                    {#                                                                                                class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View#}
+                    {#                        Menu</a></p>#}
                 </div>
 
             </div>
@@ -159,16 +161,19 @@
                         <div class="icon"><span class="icon-clock-o"></span></div>
                         <div class="text">
                             <h3>Open 24 x 7</h3>
-{#                            <p>8:00am - 9:00pm</p>#}
+                            {#                            <p>8:00am - 9:00pm</p>#}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="social d-md-flex pl-md-5 p-4 align-items-center">
                 <ul class="social-icon">
-                    <li class="ftco-animate"><a href="https://fb.com/manasgupta11"><span class="icon-twitter"></span></a></li>
-                    <li class="ftco-animate"><a href="https://fb.com/manasgupta11"><span class="icon-facebook"></span></a></li>
-                    <li class="ftco-animate"><a href="https://fb.com/manasgupta11"><span class="icon-instagram"></span></a></li>
+                    <li class="ftco-animate"><a href="https://fb.com/manasgupta11"><span
+                            class="icon-twitter"></span></a></li>
+                    <li class="ftco-animate"><a href="https://fb.com/manasgupta11"><span
+                            class="icon-facebook"></span></a></li>
+                    <li class="ftco-animate"><a href="https://fb.com/manasgupta11"><span class="icon-instagram"></span></a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -182,7 +187,11 @@
             <h2 class="mb-4">Welcome to <span class="flaticon-pizza">FOODEX</span> Online Food Ordering</h2>
         </div>
         <div>
-            <p>Order food & beverages online from restaurants near & around you. We deliver food from your neighborhood local joints, your favorite cafes, luxurious & elite restaurants in your area, and also from chains like Dominos, KFC, Burger King, Pizza Hut, FreshMenu, Mc Donald's, Subway, Faasos, Cafe Coffee Day, Taco Bell, and more. Exciting bit? We place no minimum order restrictions! Order in as little (or as much) as you'd like. We'll Foodex it to you!</p>
+            <p>Order food & beverages online from restaurants near & around you. We deliver food from your neighborhood
+                local joints, your favorite cafes, luxurious & elite restaurants in your area, and also from chains like
+                Dominos, KFC, Burger King, Pizza Hut, FreshMenu, Mc Donald's, Subway, Faasos, Cafe Coffee Day, Taco
+                Bell, and more. Exciting bit? We place no minimum order restrictions! Order in as little (or as much) as
+                you'd like. We'll Foodex it to you!</p>
         </div>
     </div>
 </section>
@@ -291,52 +300,56 @@
             <div class="col-lg-3 col-md-6 mb-5 mb-md-5">
                 <div class="ftco-footer-widget mb-4">
                     <h2 class="ftco-heading-2">About Us</h2>
-                                      <p>Foodex - Best online food ordering portal - Ranked #1 by Food Association of India. We focus on customers and their satisfaction.</p>
+                    <p>Foodex - Best online food ordering portal - Ranked #1 by Food Association of India. We focus on
+                        customers and their satisfaction.</p>
 
                     <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                        <li class="ftco-animate"><a href="https://fb.com/manasgupta11"><span class="icon-twitter"></span></a></li>
-                        <li class="ftco-animate"><a href="https://fb.com/manasgupta11"><span class="icon-facebook"></span></a></li>
-                        <li class="ftco-animate"><a href="https://fb.com/manasgupta11"><span class="icon-instagram"></span></a></li>
+                        <li class="ftco-animate"><a href="https://fb.com/manasgupta11"><span
+                                class="icon-twitter"></span></a></li>
+                        <li class="ftco-animate"><a href="https://fb.com/manasgupta11"><span
+                                class="icon-facebook"></span></a></li>
+                        <li class="ftco-animate"><a href="https://fb.com/manasgupta11"><span
+                                class="icon-instagram"></span></a></li>
                     </ul>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 mb-5 mb-md-5">
-{#                <div class="ftco-footer-widget mb-4">#}
-{#                    <h2 class="ftco-heading-2">Recent Blog</h2>#}
-{#                    <div class="block-21 mb-4 d-flex">#}
-{#                        <a class="blog-img mr-4" style="background-image: url({% static "images/image_1.jpg" %});"></a>#}
-{#                        <div class="text">#}
-{#                            <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about</a></h3>#}
-{#                            <div class="meta">#}
-{#                                <div><a href="#"><span class="icon-calendar"></span> Sept 15, 2018</a></div>#}
-{#                                <div><a href="#"><span class="icon-person"></span> Admin</a></div>#}
-{#                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <div class="block-21 mb-4 d-flex">#}
-{#                        <a class="blog-img mr-4" style="background-image: url({% static "images/image_2.jpg" %});"></a>#}
-{#                        <div class="text">#}
-{#                            <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about</a></h3>#}
-{#                            <div class="meta">#}
-{#                                <div><a href="#"><span class="icon-calendar"></span> Sept 15, 2018</a></div>#}
-{#                                <div><a href="#"><span class="icon-person"></span> Admin</a></div>#}
-{#                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
+                {#                <div class="ftco-footer-widget mb-4">#}
+                {#                    <h2 class="ftco-heading-2">Recent Blog</h2>#}
+                {#                    <div class="block-21 mb-4 d-flex">#}
+                {#                        <a class="blog-img mr-4" style="background-image: url({% static "images/image_1.jpg" %});"></a>#}
+                {#                        <div class="text">#}
+                {#                            <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about</a></h3>#}
+                {#                            <div class="meta">#}
+                {#                                <div><a href="#"><span class="icon-calendar"></span> Sept 15, 2018</a></div>#}
+                {#                                <div><a href="#"><span class="icon-person"></span> Admin</a></div>#}
+                {#                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                    <div class="block-21 mb-4 d-flex">#}
+                {#                        <a class="blog-img mr-4" style="background-image: url({% static "images/image_2.jpg" %});"></a>#}
+                {#                        <div class="text">#}
+                {#                            <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about</a></h3>#}
+                {#                            <div class="meta">#}
+                {#                                <div><a href="#"><span class="icon-calendar"></span> Sept 15, 2018</a></div>#}
+                {#                                <div><a href="#"><span class="icon-person"></span> Admin</a></div>#}
+                {#                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                </div>#}
             </div>
             <div class="col-lg-2 col-md-6 mb-5 mb-md-5">
-{#                <div class="ftco-footer-widget mb-4 ml-md-4">#}
-{#                    <h2 class="ftco-heading-2">Services</h2>#}
-{#                    <ul class="list-unstyled">#}
-{#                        <li><a href="#" class="py-2 d-block">Cooked</a></li>#}
-{#                        <li><a href="#" class="py-2 d-block">Deliver</a></li>#}
-{#                        <li><a href="#" class="py-2 d-block">Quality Foods</a></li>#}
-{#                        <li><a href="#" class="py-2 d-block">Mixed</a></li>#}
-{#                    </ul>#}
-{#                </div>#}
+                {#                <div class="ftco-footer-widget mb-4 ml-md-4">#}
+                {#                    <h2 class="ftco-heading-2">Services</h2>#}
+                {#                    <ul class="list-unstyled">#}
+                {#                        <li><a href="#" class="py-2 d-block">Cooked</a></li>#}
+                {#                        <li><a href="#" class="py-2 d-block">Deliver</a></li>#}
+                {#                        <li><a href="#" class="py-2 d-block">Quality Foods</a></li>#}
+                {#                        <li><a href="#" class="py-2 d-block">Mixed</a></li>#}
+                {#                    </ul>#}
+                {#                </div>#}
             </div>
             <div class="col-lg-3 col-md-6 mb-5 mb-md-5">
                 <div class="ftco-footer-widget mb-4">

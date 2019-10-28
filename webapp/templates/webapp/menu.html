@@ -103,6 +103,10 @@
                                         <td>Name:</td>
                                         <td>{{ r_name }}</td>
                                     </tr>
+                                    <tr>
+                                        <td>Exclusive:</td>
+                                        <td>{{ r_ex }}</td>
+                                    </tr>
 
                                     <tr>
                                         <td>Address:</td>
@@ -177,27 +181,27 @@
                     {% endif %}
 
 
-                        <td>
-                            <div class="form-group" style="width:40%;">
+                    <td>
+                        <div class="form-group" style="width:40%;">
 
-                                <div class="input-group-btn">
-                                    <button id="down" class="btn btn-default"
-                                            onclick="if(document.querySelector('#itemno{{ x.4 }}').innerHTML>0){
-                                                    document.querySelector('#itemno{{ x.4 }}').innerHTML--;
-                                                    minuscounter('{{ x.4 }}');
-                                                    }">
-                                        <span class="glyphicon glyphicon-minus"></span></button>
-                                </div>
-                                <span id='itemno{{ x.4 }}'> 0 </span>
-                                <div class="input-group-btn">
-                                    <button id="up" class="btn btn-default"
-                                            onclick="
-                                                    document.querySelector('#itemno{{ x.4 }}').innerHTML++;
-                                                    pluscounter('{{ x.4 }}');
-                                                    "><span class="glyphicon glyphicon-plus"></span></button>
-                                </div>
+                            <div class="input-group-btn">
+                                <button id="down" class="btn btn-default"
+                                        onclick="if(document.querySelector('#itemno{{ x.4 }}').innerHTML>0){
+                                                document.querySelector('#itemno{{ x.4 }}').innerHTML--;
+                                                minuscounter('{{ x.4 }}');
+                                                }">
+                                    <span class="glyphicon glyphicon-minus"></span></button>
                             </div>
-                        </td>
+                            <span id='itemno{{ x.4 }}'> 0 </span>
+                            <div class="input-group-btn">
+                                <button id="up" class="btn btn-default"
+                                        onclick="
+                                                document.querySelector('#itemno{{ x.4 }}').innerHTML++;
+                                                pluscounter('{{ x.4 }}');
+                                                "><span class="glyphicon glyphicon-plus"></span></button>
+                            </div>
+                        </div>
+                    </td>
 
 
                 </tr>

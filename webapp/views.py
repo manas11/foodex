@@ -265,6 +265,7 @@ def restuarantMenu(request, pk=None):
         'items': items,
         'r_id': pk,
         'r_name': rest[0].name,
+        'r_ex': rest[0].is_exclusive,
         'r_cost': rest[0].avg_cost,
         'r_time': rest[0].avg_time,
         'r_phone': rest[0].phone,
