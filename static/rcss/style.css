@@ -616,7 +616,7 @@ button.w3view-cart {
 .product-new-top {
     background: #0c5460;
     color: #fff;
-    right: 0;
+    right: 60px;
     position: absolute;
     top: 0;
     width: 60px;
@@ -688,7 +688,7 @@ button.w3view-cart {
 .inner-men-cart-pro .link-product-add-cart {
     width: 61%;
     top: 0;
-    left: 17%;
+    left: 19.5%;
     margin: 0 auto;
     position: absolute;
     transition: all 0.5s ease-out 0s;
@@ -932,11 +932,11 @@ h3.heading-tittle {
     text-align: center;
 }
 .item-info-product {
-    margin-top: 40px;
+    margin-top: 20px;
     text-align: center;
 }
 .item-info-product h4 a {
-    color: #000;
+    color: #fff;
     font-size: 17px;
     letter-spacing: 1px;
 }
@@ -2817,7 +2817,7 @@ input[type="radio"], input[type="checkbox"] {
         bottom: 45%;
     }
     .item-info-product h4 a {
-        color: #000;
+        color: #fff;
         font-size: 16px;
     }    
     .w3l-specilamk {

@@ -85,6 +85,21 @@
 <!-- fourth section (noodles) -->
 
 
+{#<section class="ftco-about d-md-flex">#}
+{#    <div class="one-half img" style="background-image: url({% static "images/about.jpg" %})"></div>#}
+{#    <div class="one-half ftco-animate">#}
+{#        <div class="heading-section ftco-animate ">#}
+{#            <h2 class="mb-4">Welcome to <span class="flaticon-pizza">FOODEX</span> Online Food Ordering</h2>#}
+{#        </div>#}
+{#        <div>#}
+{#            <p>Order food & beverages online from restaurants near & around you. We deliver food from your neighborhood#}
+{#                local joints, your favorite cafes, luxurious & elite restaurants in your area, and also from chains like#}
+{#                Dominos, KFC, Burger King, Pizza Hut, FreshMenu, Mc Donald's, Subway, Faasos, Cafe Coffee Day, Taco#}
+{#                Bell, and more. Exciting bit? We place no minimum order restrictions! Order in as little (or as much) as#}
+{#                you'd like. We'll Foodex it to you!</p>#}
+{#        </div>#}
+{#    </div>#}
+{#</section>#}
 <div class="product-sec1">
 
     {% if request.user.is_authenticated %}
@@ -109,18 +124,17 @@
                     <a href={% url 'menu' x.restaurant_id %}>{{x.name }}</a>
 {#                    <a href={% url 'index' %}>{{x.name }}</a>#}
                 </h4>
-            </div>
-        <div class="item-info-product ">
+
                 <h4>
-                    <a href="">Avg Cost : &#x20b9; {{x.avg_cost }}</a>
+                    <a href={% url 'menu' x.restaurant_id %}>Avg Cost : &#x20b9; {{x.avg_cost }}</a>
                 </h4>
-            </div><div class="item-info-product ">
+
                 <h4>
-                    <a href="">Avg Time : {{x.avg_time }} mins</a>
+                    <a href={% url 'menu' x.restaurant_id %}>Avg Time : {{x.avg_time }} mins</a>
                 </h4>
             </div>
 {#                <div class="info-product-price">#}
-{#                    <span class="item_price">$11.99</span>#}
+{#                    <span class="item_price </div><div class="item-info-product ">">$11.99</span>#}
 {#                    <del>$15.00</del>#}
 {#                </div>#}
 {#                <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">#}
@@ -146,7 +160,7 @@
       {% endfor %}
     {% else %}
         {#else display dropdown select tag and then select the location and restaurants of that location #}
-                        <h3 class="heading-tittle">Please Login to view restaurants in your area :)</h3>
+                        <h3 class="heading-tittle">Sorry, we are unable to show restaurants. Please Login to view restaurants in your area :)</h3>
 
     {% endif %}
 
