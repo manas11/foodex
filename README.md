@@ -234,7 +234,7 @@ Python comes pre-installed in linux distributions. Otherwise it can be easily in
 
 ```
 sudo apt-get update && sudo apt-get -y upgrade
-sudo apt-get update && sudo apt-get -y upgrade
+sudo apt-get install python3
 ```
 
 To check whether python has been successfully installed run the command `python3 -V` you should see the below output.
