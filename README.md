@@ -275,13 +275,13 @@ To run the FoodEx web app make sure you have installed all the dependencies ment
 Once all the dependencies are installed clone the [foodex]() repository. Modify the database setting by
 going to [settings.py](./foodapp/settings.py) and changing the `USER`, `PASSWORD`, `HOST` and `PORT` to
 the corresponding settings of your MQL installation. Run the app by using the below command.
-
-`python manage.py runserver` 
-
+```
+python manage.py runserver` 
+```
 Point your browser to the following URL and voila the you have the FoodEX app running
-
-`http://localhost:8080`
-
+```
+http://localhost:8080`
+```
 ## Contributors and maintainers [&uarr;](#contents)
 
 This project and repository is created and maintained by:
