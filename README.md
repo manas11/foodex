@@ -292,8 +292,8 @@ This project and repository is created and maintained by:
     
  Github: [manas11](https://github.com/manas11)
     
-* **Animesh Kumar**
+* **Aashay Maheshwarkar**
 
- Email: animuz111@gmail.com
+ Email: aashaym1@gmail.com
     
- Github: [animeshk08](https://github.com/animeshk08)
+ Github: [aashaym1](https://github.com/aashaym1)
