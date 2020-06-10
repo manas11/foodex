@@ -4,10 +4,10 @@ from django.http import JsonResponse
 
 from django.shortcuts import render, redirect, get_object_or_404
 from _datetime import datetime
-from django.http import HttpResponse, HttpResponseNotAllowed
+# from django.http import HttpResponse, HttpResponseNotAllowed
 
 from django.contrib.auth import authenticate, login, logout
-from xdg import Menu
+# from xdg import Menu
 
 from webapp.models import Location, RestaurantOwner, Restaurant, FoodRestaurant, FoodItem, ItemType, User, Order, \
     Customer, OrderDetail, Offer, Payment, Favourite

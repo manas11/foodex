@@ -24,9 +24,7 @@ class Cuisine(models.Model):
 
 
 class User(AbstractUser):
-    username = None
     email = models.EmailField(unique=True)
-    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     is_customer = models.BooleanField('customer status', default=False)
     is_restaurant_owner = models.BooleanField('restaurant owner status', default=False)
