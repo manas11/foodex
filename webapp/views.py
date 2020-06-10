@@ -43,7 +43,7 @@ def customer_register(request):
     form = CustomerRegisterForm(request.POST or None)
     if form.is_valid():
         user = form.save(commit=False)
-        email = form.cleaned_data['email']
+        email = form.cleaned_data['username']
         password = form.cleaned_data['password']
         user.is_customer = True
         user.set_password(password)
@@ -83,9 +83,9 @@ def customer_profile_register(request):
 
 def customer_login(request):
     if request.method == "POST":
-        email = request.POST['email']
+        email = request.POST['username']
         password = request.POST['pass']
-        user = authenticate(email=email, password=password)
+        user = authenticate(username=email, password=password)
         print(user)
         if user is not None:
             login(request, user)
@@ -100,12 +100,12 @@ def restaurant_register(request):
     form = RestaurantRegisterForm(request.POST or None)
     if form.is_valid():
         user = form.save(commit=False)
-        email = form.cleaned_data['email']
+        username = form.cleaned_data['username']
         password = form.cleaned_data['password']
         user.is_restaurant_owner = True
         user.set_password(password)
         user.save()
-        user = authenticate(email=email, password=password)
+        user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
                 login(request, user)
